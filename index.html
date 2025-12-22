@@ -1,0 +1,1018 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OXFORD 3000 KELİME KARTI A1-B2</title>
+
+  <style>
+    :root { color-scheme: dark; }
+
+    :root{
+      --bg-1:#071023; --bg-2:#0d1726;
+      --bg:linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      --text:#e6eef8; --muted:#9aa3b2; --line:rgba(255,255,255,.06);
+      --accent:#6366f1; --accent2:#4f46e5;
+      --success:#16a34a; --danger:#ef4444;
+      --glass:rgba(255,255,255,.03);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.35;
+    }
+
+    .container{max-width:1120px;margin:24px auto;padding:20px}
+    header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    h1{font-size:20px;margin:0;letter-spacing:-0.01em}
+    .subtitle{margin:0;color:var(--muted);font-size:13px}
+
+    .toolbar{
+      display:flex;flex-wrap:wrap;gap:12px;width:100%;
+      padding:12px;border-radius:14px;
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.02));
+      border:1px solid rgba(255,255,255,.03);
+      box-shadow:0 6px 18px rgba(2,6,23,.35)
+    }
+    .group{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .group label{font-size:13px;color:var(--muted)}
+    .group .hint{font-size:12px;color:var(--muted)}
+
+    input[type="text"],select{
+      background:transparent;border:1px solid var(--line);border-radius:10px;color:var(--text);
+      padding:10px 12px;outline:none;min-width:160px;
+      transition:box-shadow .18s, border-color .18s;
+    }
+    input[type="text"]:focus, select:focus{
+      box-shadow:0 6px 18px rgba(99,102,241,.10);
+      border-color:rgba(99,102,241,.35)
+    }
+    input[type="checkbox"]{transform:translateY(1px)}
+
+    select{
+      background-color:#0b1424;
+      -webkit-appearance:none; -moz-appearance:none; appearance:none;
+      padding-right:38px;
+      background-image:
+        linear-gradient(45deg, transparent 50%, rgba(230,238,248,.7) 50%),
+        linear-gradient(135deg, rgba(230,238,248,.7) 50%, transparent 50%),
+        linear-gradient(to right, transparent, transparent);
+      background-position:
+        calc(100% - 18px) calc(50% - 4px),
+        calc(100% - 12px) calc(50% - 4px),
+        calc(100% - 2.5em) 0.6em;
+      background-size:6px 6px, 6px 6px, 1px 1.8em;
+      background-repeat:no-repeat;
+    }
+    select option{ background-color:#0b1424; color:var(--text); }
+    select::-ms-expand{ display:none; }
+
+    .btn{
+      background:transparent;border:1px solid var(--line);color:var(--text);
+      border-radius:10px;padding:9px 12px;cursor:pointer;
+      transition:transform .12s, background .12s, box-shadow .12s;
+      user-select:none;
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(2,6,23,.35)}
+    .btn.primary{
+      background:linear-gradient(90deg, rgba(99,102,241,.18), rgba(79,70,229,.18));
+      border-color:rgba(99,102,241,.45);
+    }
+    .btn.danger{border-color:rgba(239,68,68,.25)}
+    .btn.success{border-color:rgba(34,197,94,.22)}
+    .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+
+    .stats{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 18px}
+    .pill{
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,.02);
+      border-radius:999px;padding:8px 12px;font-size:13px;color:var(--muted);
+      display:inline-flex;align-items:center;gap:8px
+    }
+    .pill strong{color:var(--text);font-weight:600}
+
+    .tabs{display:flex;gap:10px;flex-wrap:wrap}
+    .tabs .btn{border-radius:999px;padding:9px 14px}
+    .tabCount{
+      display:inline-flex;align-items:center;justify-content:center;
+      min-width:22px;height:22px;border-radius:999px;
+      border:1px solid var(--line); background:rgba(255,255,255,.02);
+      font-size:12px;color:var(--muted); padding:0 7px;
+      margin-left:6px;
+    }
+
+    .chip{
+      font-size:12px;padding:6px 10px;border-radius:999px;color:var(--muted);
+      background:rgba(255,255,255,.02);border:1px solid var(--line)
+    }
+
+    .markBadge{font-size:12px;padding:6px 10px;border-radius:999px;font-weight:700}
+    .markBadge.known{
+      background:linear-gradient(90deg, rgba(16,185,129,.12), rgba(16,185,129,.07));
+      border:1px solid rgba(34,197,94,.18);
+      color:var(--success)
+    }
+    .markBadge.unknown{
+      background:linear-gradient(90deg, rgba(239,68,68,.10), rgba(239,68,68,.05));
+      border:1px solid rgba(239,68,68,.14);
+      color:var(--danger)
+    }
+
+    .content{display:grid;grid-template-columns:1fr;gap:16px}
+    .hidden{display:none!important}
+
+    .card{
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.04));
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.03);
+      box-shadow:0 12px 40px rgba(2,6,23,.45)
+    }
+    .cardHead{
+      display:flex;justify-content:space-between;gap:12px;padding:18px;
+      border-bottom:1px solid rgba(255,255,255,.03);flex-wrap:wrap
+    }
+    .wordTop{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .en{font-size:26px;font-weight:900;letter-spacing:-0.02em}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-top:6px}
+
+    .cardBody{padding:16px 18px 18px;display:grid;gap:12px}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .label{font-size:13px;color:var(--muted);width:90px}
+    .value{font-size:15px;color:var(--text);flex:1;min-width:240px}
+    .sentence{
+      padding:12px 14px;
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.06));
+      border-radius:12px;border:1px solid rgba(255,255,255,.02)
+    }
+
+    .cardAnimWrap{
+      position:relative;
+      will-change: transform, opacity;
+      transform: translate3d(0,0,0);
+      transition:
+        transform 180ms cubic-bezier(.22,.8,.24,1),
+        opacity 180ms cubic-bezier(.22,.8,.24,1);
+      opacity:1;
+    }
+    .cardAnimWrap.animOutLeft{ transform: translate3d(-14px,0,0); opacity:0; }
+    .cardAnimWrap.animOutRight{ transform: translate3d(14px,0,0); opacity:0; }
+    .cardAnimWrap.animIn{ transform: translate3d(0,0,0); opacity:1; }
+
+    .footerControls{
+      display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;
+      padding:14px 18px;border-top:1px solid rgba(255,255,255,.02);
+      background:linear-gradient(180deg, rgba(255,255,255,.01), rgba(0,0,0,.03))
+    }
+    .nav{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .counter{font-size:13px;color:var(--muted)}
+
+    .gridWrap{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:14px}
+    @media(min-width:900px){.gridWrap{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+    .miniCard{
+      border-radius:14px;
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.03));
+      padding:14px;border:1px solid rgba(255,255,255,.02);
+      transition:transform .15s, box-shadow .15s;
+      cursor:pointer; position:relative; overflow:hidden;
+    }
+    .miniCard:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(2,6,23,.4)}
+    .miniTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+    .miniLeft{min-width:0;flex:1}
+    .miniEn{font-weight:900;font-size:16px;letter-spacing:-0.01em}
+    .miniLine{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;align-items:center}
+    .miniTr{color:var(--muted);font-size:13px;margin-top:6px}
+    .miniMeta{color:var(--muted);font-size:12px;display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+    .pronChip{
+      font-size:12px;padding:6px 10px;border-radius:999px;
+      border:1px solid var(--line); background:rgba(255,255,255,.02);
+      color:var(--muted);
+      max-width:100%;
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    }
+
+    .miniActions{display:flex;gap:8px;align-items:center}
+    .iconBtn{
+      width:38px;height:38px;border-radius:12px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.02));
+      color:var(--text);
+      cursor:pointer;
+      display:inline-flex;align-items:center;justify-content:center;
+      transition:transform .12s, box-shadow .12s;
+      user-select:none;
+    }
+    .iconBtn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(2,6,23,.35)}
+    .iconBtn:active{transform:translateY(0)}
+
+    .btn:focus, input[type="text"]:focus, select:focus, .iconBtn:focus {
+      outline:3px solid rgba(99,102,241,.12);
+      outline-offset:2px
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .cardAnimWrap{transition:none!important}
+      .miniCard, .btn, .iconBtn{transition:none!important}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>OXFORD 3000 KELİME A1-B2</h1>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <div class="group">
+        <label for="search">Ara</label>
+        <input id="search" type="text" placeholder="Kelime / Türkçe / örnek cümle" />
+      </div>
+
+      <div class="group">
+        <label for="level">Seviye</label>
+        <select id="level"><option value="ALL">Hepsi</option></select>
+      </div>
+
+      <div class="group">
+        <label for="type">Tür</label>
+        <select id="type"><option value="ALL">Hepsi</option></select>
+      </div>
+
+      <div class="group tabs" role="tablist" aria-label="Kelime listeleri">
+        <button class="btn primary" id="tabUnmarked" data-tab="UNMARKED" role="tab" aria-selected="true">
+          Tüm Kelimeler <span class="tabCount" id="countUnmarked">0</span>
+        </button>
+        <button class="btn" id="tabKnown" data-tab="KNOWN" role="tab" aria-selected="false">
+          Bilinenler <span class="tabCount" id="countKnown">0</span>
+        </button>
+        <button class="btn" id="tabUnknown" data-tab="UNKNOWN" role="tab" aria-selected="false">
+          Bilinmeyenler <span class="tabCount" id="countUnknown">0</span>
+        </button>
+      </div>
+
+      <div class="group">
+        <button class="btn" id="toggleView">Görünüm: Kart</button>
+        <button class="btn" id="shuffle">Karıştır</button>
+        <button class="btn" id="resetFilters">Filtreleri sıfırla</button>
+        <button class="btn danger" id="resetMarks" title="Bilinen/Bilinmeyen işaretlerini sil">İşaretleri sil</button>
+      </div>
+
+      <div class="group">
+        <label><input id="showTr" type="checkbox" checked /> Türkçeyi göster</label>
+        <label><input id="showSentTr" type="checkbox" checked /> Cümle TR’yi göster</label>
+      </div>
+
+      <div class="group">
+        <span class="hint">Not: İşaretler sayfa yenilense de saklanır (localStorage).</span>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="pill">Toplam: <strong id="totalCount">0</strong></div>
+      <div class="pill">Listede: <strong id="filteredCount">0</strong></div>
+      <div class="pill">Genel: <strong id="progressText">-</strong></div>
+    </div>
+
+    <!-- CARD VIEW -->
+    <div id="cardView" class="content">
+      <div class="card">
+        <div class="cardHead">
+          <div>
+            <div class="wordTop">
+              <div class="en" id="cardEn">-</div>
+              <div class="chip" id="cardLevel">-</div>
+              <div class="chip" id="cardType">-</div>
+              <div class="markBadge hidden" id="cardMark">-</div>
+            </div>
+            <div class="meta">
+              <span id="cardId">#-</span>
+              <span>•</span>
+              <span>TR okunuş: <span id="cardPron">-</span></span>
+            </div>
+          </div>
+
+          <div class="row">
+            <button class="btn primary" id="speak">Seslendir</button>
+          </div>
+        </div>
+
+        <div class="cardAnimWrap" id="cardAnimWrap">
+          <div class="cardBody">
+            <div class="row" id="trRow">
+              <div class="label">TR</div>
+              <div class="value" id="cardTr">-</div>
+            </div>
+
+            <div>
+              <div class="label" style="width:auto;margin-bottom:6px;">Örnek cümle (EN)</div>
+              <div class="sentence" id="cardSentEn">-</div>
+            </div>
+
+            <div id="sentTrWrap">
+              <div class="label" style="width:auto;margin-bottom:6px;">Örnek cümle (TR)</div>
+              <div class="sentence" id="cardSentTr">-</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footerControls">
+          <div class="nav">
+            <button class="btn" id="prev">← Önceki</button>
+            <button class="btn" id="next">Sonraki →</button>
+            <span class="counter" id="counter">0 / 0</span>
+          </div>
+
+          <div class="nav">
+            <button class="btn success" id="markKnown">Biliyorum</button>
+            <button class="btn danger" id="markUnknown">Bilmiyorum</button>
+            <button class="btn" id="clearMark">İşareti kaldır</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRID VIEW -->
+    <div id="gridView" class="gridWrap hidden"></div>
+  </div>
+
+  <script src="words.js"></script>
+
+  <script>
+    "use strict";
+
+    const STORAGE_KEY_MARKS = "wordcards_marks_v4";
+    const ANIM_MS = 180;
+    const ALLOWED_LEVELS = ["A1","A2","B1","B2"];
+
+    const initialWords = Array.isArray(window.WORDS) ? window.WORDS : [];
+    if (initialWords.length === 0) {
+      alert("words.js yüklenemedi veya WORDS boş. Aynı klasörde olduğundan emin olun.");
+    }
+
+    const state = {
+      words: [...initialWords],
+      filtered: [],
+      index: 0,
+      view: "CARD",
+      listMode: "UNMARKED",
+      search: "",
+      level: "ALL",
+      type: "ALL",
+      showTr: true,
+      showSentTr: true,
+      marks: loadMarks(),
+      isAnimating: false
+    };
+
+    const el = {
+      search: document.getElementById("search"),
+      level: document.getElementById("level"),
+      type: document.getElementById("type"),
+
+      tabUnmarked: document.getElementById("tabUnmarked"),
+      tabKnown: document.getElementById("tabKnown"),
+      tabUnknown: document.getElementById("tabUnknown"),
+      countUnmarked: document.getElementById("countUnmarked"),
+      countKnown: document.getElementById("countKnown"),
+      countUnknown: document.getElementById("countUnknown"),
+
+      toggleView: document.getElementById("toggleView"),
+      shuffle: document.getElementById("shuffle"),
+      resetFilters: document.getElementById("resetFilters"),
+      resetMarks: document.getElementById("resetMarks"),
+      showTr: document.getElementById("showTr"),
+      showSentTr: document.getElementById("showSentTr"),
+
+      totalCount: document.getElementById("totalCount"),
+      filteredCount: document.getElementById("filteredCount"),
+      progressText: document.getElementById("progressText"),
+
+      cardView: document.getElementById("cardView"),
+      gridView: document.getElementById("gridView"),
+
+      cardAnimWrap: document.getElementById("cardAnimWrap"),
+
+      cardEn: document.getElementById("cardEn"),
+      cardLevel: document.getElementById("cardLevel"),
+      cardType: document.getElementById("cardType"),
+      cardMark: document.getElementById("cardMark"),
+      cardId: document.getElementById("cardId"),
+      cardPron: document.getElementById("cardPron"),
+      cardTr: document.getElementById("cardTr"),
+      cardSentEn: document.getElementById("cardSentEn"),
+      cardSentTr: document.getElementById("cardSentTr"),
+      trRow: document.getElementById("trRow"),
+      sentTrWrap: document.getElementById("sentTrWrap"),
+
+      speak: document.getElementById("speak"),
+      prev: document.getElementById("prev"),
+      next: document.getElementById("next"),
+      counter: document.getElementById("counter"),
+
+      markKnown: document.getElementById("markKnown"),
+      markUnknown: document.getElementById("markUnknown"),
+      clearMark: document.getElementById("clearMark")
+    };
+
+    init();
+
+    function init(){
+      el.totalCount.textContent = String(state.words.length);
+
+      populateSelects();
+
+      applyFilters(true);
+      updateTabsUI();
+      render();
+
+      el.search.addEventListener("input", () => {
+        state.search = el.search.value.trim();
+        applyFilters(true);
+        render();
+      });
+
+      el.level.addEventListener("change", () => {
+        state.level = el.level.value;
+        applyFilters(true);
+        render();
+      });
+
+      el.type.addEventListener("change", () => {
+        state.type = el.type.value;
+        applyFilters(true);
+        render();
+      });
+
+      [el.tabUnmarked, el.tabKnown, el.tabUnknown].forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.listMode = btn.dataset.tab;
+          updateTabsUI();
+          applyFilters(true);
+          render();
+        });
+      });
+
+      el.toggleView.addEventListener("click", () => {
+        state.view = (state.view === "CARD") ? "GRID" : "CARD";
+        render();
+      });
+
+      el.shuffle.addEventListener("click", () => {
+        state.filtered = shuffleArray(state.filtered);
+        state.index = 0;
+        if(state.view === "CARD") animateToCurrent(0);
+        else render();
+      });
+
+      el.resetFilters.addEventListener("click", () => {
+        state.search = "";
+        state.level = "ALL";
+        state.type = "ALL";
+        state.index = 0;
+        el.search.value = "";
+        el.level.value = "ALL";
+        el.type.value = "ALL";
+        applyFilters(true);
+        render();
+      });
+
+      el.resetMarks.addEventListener("click", () => {
+        state.marks = {};
+        saveMarks(state.marks);
+        applyFilters(true);
+        render();
+      });
+
+      el.showTr.addEventListener("change", () => {
+        state.showTr = el.showTr.checked;
+        if(state.view === "CARD") renderCardOnly();
+        else renderGrid();
+      });
+
+      el.showSentTr.addEventListener("change", () => {
+        state.showSentTr = el.showSentTr.checked;
+        if(state.view === "CARD") renderCardOnly();
+      });
+
+      el.prev.addEventListener("click", () => go(-1));
+      el.next.addEventListener("click", () => go(+1));
+
+      el.speak.addEventListener("click", () => {
+        const w = getCurrent();
+        if(!w) return;
+        speakEnglish(w.en);
+      });
+
+      el.markKnown.addEventListener("click", () => setMark("KNOWN"));
+      el.markUnknown.addEventListener("click", () => setMark("UNKNOWN"));
+      el.clearMark.addEventListener("click", () => setMark(null));
+
+      window.addEventListener("keydown", (e) => {
+        if(state.view !== "CARD") return;
+        if(e.key === "ArrowLeft"){ e.preventDefault(); go(-1); }
+        if(e.key === "ArrowRight"){ e.preventDefault(); go(+1); }
+      });
+
+      setupWheelNav();
+      setupSwipeNav();
+      setupHoldToScroll(el.next, +1);
+      setupHoldToScroll(el.prev, -1);
+    }
+
+    // =========================
+    // LEVEL + TYPE PARSERS
+    // =========================
+    function parseLevels(levelField){
+      const s = String(levelField || "").toUpperCase();
+      const matches = s.match(/\b[ABC][12]\b/g) || [];
+      const allowed = new Set(ALLOWED_LEVELS);
+      return Array.from(new Set(matches.filter(x => allowed.has(x))));
+    }
+
+    function parseTypes(typeField){
+      // "NOUN VERB", "NOUN, VERB", "NOUN/VERB", "phrasal verb" vb. için normalize eder
+      let s = String(typeField || "").trim();
+      if(!s) return [];
+
+      // ortak ayırıcıları tek boşluğa indir
+      s = s.replace(/[\/|,;]+/g, " ");
+      s = s.replace(/\s+/g, " ").trim();
+
+      // token mantığı: kelimeleri ayırır, büyük-küçük duyarsız
+      // NOT: Çok kelimeli türler (örn. "phrasal verb") varsa, aşağıda ayrıca ele alıyoruz.
+      const upper = s.toUpperCase();
+
+      // Önce özel çok-kelimeli türleri yakala (datasetinizde varsa genişletebilirsiniz)
+      const multi = [];
+      const MULTI_TYPES = [
+        "PHRASAL VERB",
+        "AUXILIARY VERB",
+        "MODAL VERB"
+      ];
+      for(const mt of MULTI_TYPES){
+        if(upper.includes(mt)){
+          multi.push(mt);
+        }
+      }
+
+      // Kalanları tekil tokenlara böl
+      const parts = upper.split(" ").filter(Boolean);
+
+      // Multi yakalananların içindeki tokenları tekrar eklememek için temizle
+      // (örn. "PHRASAL VERB" -> "PHRASAL" ve "VERB" gibi parçalara bölünüp kirlilik oluşturmasın)
+      const multiTokens = new Set(multi.flatMap(x => x.split(" ")));
+      const singles = parts.filter(p => !multiTokens.has(p));
+
+      // Sonuç
+      return Array.from(new Set([...multi, ...singles]));
+    }
+
+    // =========================
+    // SELECTS (KEY FIX FOR TYPE)
+    // =========================
+    function populateSelects(){
+      // Level: sabit
+      fillSelect(el.level, ["ALL", ...ALLOWED_LEVELS], { ALL: "Hepsi" });
+
+      // Type: tüm kategorileri data içinden çıkar
+      const typeSet = new Set();
+      for(const w of state.words){
+        for(const t of parseTypes(w.type)){
+          typeSet.add(t);
+        }
+      }
+      const types = Array.from(typeSet).sort((a,b)=>a.localeCompare(b));
+      fillSelect(el.type, ["ALL", ...types], { ALL: "Hepsi" });
+    }
+
+    function fillSelect(selectEl, values, labelsMap){
+      selectEl.innerHTML = "";
+      for(const v of values){
+        const opt = document.createElement("option");
+        opt.value = v;
+        opt.textContent = labelsMap?.[v] ?? v;
+        selectEl.appendChild(opt);
+      }
+      selectEl.value = "ALL";
+    }
+
+    // =========================
+    // FILTERING (KEY FIX FOR TYPE)
+    // =========================
+    function applyFilters(resetIndex){
+      const q = state.search.toLowerCase();
+
+      state.filtered = state.words.filter(w => {
+        const matchSearch = !q || [
+          w.en, w.tr, w.type, w.level, w.pron, w.sentEn, w.sentTr
+        ].some(x => String(x || "").toLowerCase().includes(q));
+
+        const wordLevels = parseLevels(w.level);
+        const matchLevel = (state.level === "ALL") || wordLevels.includes(state.level);
+
+        const wordTypes = parseTypes(w.type);
+        const matchType  = (state.type === "ALL") || wordTypes.includes(String(state.type).toUpperCase());
+
+        const mark = state.marks[w.id] || null;
+        const matchListMode =
+          (state.listMode === "UNMARKED" && mark === null) ||
+          (state.listMode === "KNOWN" && mark === "KNOWN") ||
+          (state.listMode === "UNKNOWN" && mark === "UNKNOWN");
+
+        return matchSearch && matchLevel && matchType && matchListMode;
+      });
+
+      if(resetIndex) state.index = 0;
+      if(state.index >= state.filtered.length) state.index = Math.max(0, state.filtered.length - 1);
+
+      el.filteredCount.textContent = String(state.filtered.length);
+      updateProgressAndCounts();
+    }
+
+    // =========================
+    // REST (UI/RENDER/MARKS/SPEECH) - Aynı
+    // =========================
+    function updateProgressAndCounts(){
+      let known = 0, unknown = 0, unmarked = 0;
+      for(const w of state.words){
+        const m = state.marks[w.id] || null;
+        if(m === "KNOWN") known++;
+        else if(m === "UNKNOWN") unknown++;
+        else unmarked++;
+      }
+
+      el.countKnown.textContent = String(known);
+      el.countUnknown.textContent = String(unknown);
+      el.countUnmarked.textContent = String(unmarked);
+
+      el.progressText.textContent = `Tüm: ${unmarked} | Bilinen: ${known} | Bilinmeyen: ${unknown}`;
+    }
+
+    function updateTabsUI(){
+      const tabs = [
+        {el: el.tabUnmarked, mode:"UNMARKED"},
+        {el: el.tabKnown, mode:"KNOWN"},
+        {el: el.tabUnknown, mode:"UNKNOWN"}
+      ];
+      for(const t of tabs){
+        const active = (t.mode === state.listMode);
+        t.el.classList.toggle("primary", active);
+        t.el.setAttribute("aria-selected", active ? "true" : "false");
+      }
+    }
+
+    function render(){
+      el.toggleView.textContent = `Görünüm: ${state.view === "CARD" ? "Kart" : "Grid"}`;
+
+      if(state.view === "CARD"){
+        el.cardView.classList.remove("hidden");
+        el.gridView.classList.add("hidden");
+        renderCardOnly();
+      } else {
+        el.cardView.classList.add("hidden");
+        el.gridView.classList.remove("hidden");
+        renderGrid();
+      }
+
+      updateProgressAndCounts();
+    }
+
+    function renderCardOnly(){
+      renderCard();
+      el.counter.textContent =
+        `${state.filtered.length === 0 ? 0 : (state.index + 1)} / ${state.filtered.length}`;
+    }
+
+    function getCurrent(){
+      if(state.filtered.length === 0) return null;
+      return state.filtered[state.index] ?? null;
+    }
+
+    function renderCard(){
+      const w = getCurrent();
+
+      if(!w){
+        el.cardEn.textContent = "Sonuç yok";
+        el.cardLevel.textContent = "-";
+        el.cardType.textContent = "-";
+        el.cardId.textContent = "#-";
+        el.cardPron.textContent = "-";
+        el.cardTr.textContent = "-";
+        el.cardSentEn.textContent = "-";
+        el.cardSentTr.textContent = "-";
+
+        el.trRow.classList.toggle("hidden", !state.showTr);
+        el.sentTrWrap.classList.toggle("hidden", !state.showSentTr);
+
+        el.cardMark.classList.add("hidden");
+        setMarkButtons(null);
+        el.speak.disabled = true;
+        return;
+      }
+
+      el.speak.disabled = false;
+
+      el.cardEn.textContent = w.en ?? "-";
+      el.cardLevel.textContent = w.level ?? "-";
+      el.cardType.textContent = w.type ?? "-";
+      el.cardId.textContent = `#${w.id ?? "-"}`;
+      el.cardPron.textContent = w.pron ?? "-";
+      el.cardTr.textContent = w.tr ?? "-";
+      el.cardSentEn.textContent = w.sentEn ?? "-";
+      el.cardSentTr.textContent = w.sentTr ?? "-";
+
+      el.trRow.classList.toggle("hidden", !state.showTr);
+      el.sentTrWrap.classList.toggle("hidden", !state.showSentTr);
+
+      const mark = state.marks[w.id] || null;
+      setMarkButtons(mark);
+
+      if(mark === "KNOWN"){
+        el.cardMark.textContent = "Biliyorum";
+        el.cardMark.classList.remove("hidden","unknown");
+        el.cardMark.classList.add("markBadge","known");
+      } else if(mark === "UNKNOWN"){
+        el.cardMark.textContent = "Bilmiyorum";
+        el.cardMark.classList.remove("hidden","known");
+        el.cardMark.classList.add("markBadge","unknown");
+      } else {
+        el.cardMark.textContent = "";
+        el.cardMark.classList.add("hidden");
+        el.cardMark.classList.remove("known","unknown");
+      }
+    }
+
+    function renderGrid(){
+      el.gridView.innerHTML = "";
+      const list = state.filtered;
+
+      for(let i=0; i<list.length; i++){
+        const w = list[i];
+        const div = document.createElement("div");
+        div.className = "miniCard";
+
+        const mark = state.marks[w.id] || null;
+        let markHtml = "";
+        if(mark === "KNOWN") markHtml = `<span class="markBadge known">Biliyorum</span>`;
+        if(mark === "UNKNOWN") markHtml = `<span class="markBadge unknown">Bilmiyorum</span>`;
+
+        const pronChip = `<span class="pronChip" title="Türkçe okunuş">${escapeHtml(w.pron || "-")}</span>`;
+        const trLine = state.showTr ? `<div class="miniTr">${escapeHtml(w.tr || "")}</div>` : "";
+
+        div.innerHTML = `
+          <div class="miniTop">
+            <div class="miniLeft">
+              <div class="miniEn">${escapeHtml(w.en)}</div>
+              <div class="miniLine">
+                ${pronChip}
+                <span class="chip">${escapeHtml(w.level || "-")}</span>
+                <span class="chip">${escapeHtml(w.type || "-")}</span>
+                ${markHtml}
+              </div>
+              ${trLine}
+              <div class="miniMeta">
+                <span>#${escapeHtml(w.id)}</span>
+                <span>•</span>
+                <span>Örnek: ${escapeHtml(shorten(w.sentEn || "-", 64))}</span>
+              </div>
+            </div>
+
+            <div class="miniActions">
+              <button class="iconBtn" type="button" title="Seslendir (EN)">🔊</button>
+            </div>
+          </div>
+        `;
+
+        div.addEventListener("click", () => {
+          state.index = i;
+          state.view = "CARD";
+          render();
+          animateToCurrent(0);
+        });
+
+        const speakBtn = div.querySelector(".iconBtn");
+        speakBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          speakEnglish(w.en);
+        });
+
+        el.gridView.appendChild(div);
+      }
+
+      el.counter.textContent =
+        `${state.filtered.length === 0 ? 0 : (state.index + 1)} / ${state.filtered.length}`;
+    }
+
+    function shorten(s, max){
+      const t = String(s ?? "");
+      if(t.length <= max) return t;
+      return t.slice(0, max - 1) + "…";
+    }
+
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function go(direction){
+      if(state.view !== "CARD") return;
+      if(state.filtered.length === 0) return;
+      if(state.isAnimating) return;
+
+      const nextIndex = (state.index + direction + state.filtered.length) % state.filtered.length;
+      animateToIndex(nextIndex, direction);
+    }
+
+    function animateToIndex(nextIndex, direction){
+      state.isAnimating = true;
+
+      el.cardAnimWrap.classList.remove("animIn","animOutLeft","animOutRight");
+      el.cardAnimWrap.classList.add(direction > 0 ? "animOutLeft" : "animOutRight");
+
+      setTimeout(() => {
+        state.index = nextIndex;
+        renderCardOnly();
+
+        el.cardAnimWrap.classList.remove("animOutLeft","animOutRight");
+        void el.cardAnimWrap.offsetWidth;
+        el.cardAnimWrap.classList.add("animIn");
+
+        setTimeout(() => {
+          el.cardAnimWrap.classList.remove("animIn");
+          state.isAnimating = false;
+        }, ANIM_MS);
+      }, ANIM_MS);
+    }
+
+    function animateToCurrent(direction){
+      if(state.view !== "CARD") return;
+      if(state.filtered.length === 0){
+        renderCardOnly();
+        return;
+      }
+      if(direction === 0){
+        el.cardAnimWrap.classList.remove("animOutLeft","animOutRight","animIn");
+        renderCardOnly();
+        void el.cardAnimWrap.offsetWidth;
+        el.cardAnimWrap.classList.add("animIn");
+        setTimeout(() => el.cardAnimWrap.classList.remove("animIn"), ANIM_MS);
+        return;
+      }
+      animateToIndex(state.index, direction);
+    }
+
+    function setupWheelNav(){
+      let wheelLock = false;
+      window.addEventListener("wheel", (e) => {
+        if(state.view !== "CARD") return;
+        if(wheelLock) return;
+        wheelLock = true;
+        setTimeout(() => wheelLock = false, 110);
+
+        if(e.deltaY > 0) go(+1);
+        else go(-1);
+      }, { passive:true });
+    }
+
+    function setupSwipeNav(){
+      let startX = 0, startY = 0;
+
+      el.cardView.addEventListener("touchstart", (e) => {
+        const t = e.touches[0];
+        startX = t.clientX;
+        startY = t.clientY;
+      }, { passive:true });
+
+      el.cardView.addEventListener("touchend", (e) => {
+        if(state.view !== "CARD") return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - startX;
+        const dy = t.clientY - startY;
+        if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+          if (dx < 0) go(+1);
+          else go(-1);
+        }
+      }, { passive:true });
+    }
+
+    function setupHoldToScroll(buttonEl, direction) {
+      let timer = null;
+      let speedTimer = null;
+      let interval = 160;
+
+      const step = () => {
+        if(state.view !== "CARD") return;
+        if(state.filtered.length === 0) return;
+        if(state.isAnimating) return;
+
+        const nextIndex = (state.index + direction + state.filtered.length) % state.filtered.length;
+        animateToIndex(nextIndex, direction);
+      };
+
+      const start = () => {
+        step();
+        interval = 160;
+
+        timer = setInterval(step, interval);
+        speedTimer = setInterval(() => {
+          interval = Math.max(70, interval - 15);
+          clearInterval(timer);
+          timer = setInterval(step, interval);
+        }, 520);
+      };
+
+      const stop = () => {
+        clearInterval(timer);
+        clearInterval(speedTimer);
+        timer = null;
+        speedTimer = null;
+      };
+
+      buttonEl.addEventListener("mousedown", start);
+      buttonEl.addEventListener("touchstart", (e) => { e.preventDefault(); start(); }, { passive:false });
+
+      window.addEventListener("mouseup", stop);
+      window.addEventListener("touchend", stop);
+      window.addEventListener("touchcancel", stop);
+    }
+
+    function setMark(value){
+      const w = getCurrent();
+      if(!w) return;
+
+      const oldIndex = state.index;
+
+      if(value === null) delete state.marks[w.id];
+      else state.marks[w.id] = value;
+
+      saveMarks(state.marks);
+
+      applyFilters(false);
+
+      if(state.filtered.length === 0) state.index = 0;
+      else state.index = Math.min(oldIndex, state.filtered.length - 1);
+
+      render();
+
+      if(state.view === "CARD") animateToCurrent(0);
+    }
+
+    function setMarkButtons(mark){
+      el.markKnown.classList.toggle("primary", mark === "KNOWN");
+      el.markUnknown.classList.toggle("primary", mark === "UNKNOWN");
+    }
+
+    function loadMarks(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY_MARKS);
+        const obj = raw ? JSON.parse(raw) : {};
+        for(const k of Object.keys(obj)){
+          if(obj[k] !== "KNOWN" && obj[k] !== "UNKNOWN") delete obj[k];
+        }
+        return obj;
+      } catch {
+        return {};
+      }
+    }
+
+    function saveMarks(marks){
+      try{ localStorage.setItem(STORAGE_KEY_MARKS, JSON.stringify(marks)); } catch {}
+    }
+
+    function speakEnglish(text){
+      if(!("speechSynthesis" in window)){
+        alert("Bu tarayıcı SpeechSynthesis desteklemiyor.");
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(String(text || ""));
+      u.lang = "en-US";
+      u.rate = 0.9;
+      window.speechSynthesis.speak(u);
+    }
+
+    function shuffleArray(arr){
+      const a = [...arr];
+      for(let i=a.length-1; i>0; i--){
+        const j = Math.floor(Math.random() * (i+1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+  </script>
+</body>
+</html>

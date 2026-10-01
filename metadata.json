@@ -1,0 +1,8 @@
+{
+  "name": "OXFORD 3000 KELİME KARTI A1-B2",
+  "description": "Oxford 3000 İngilizce kelime çalışma ve bilgi kartı uygulaması (A1-B2)",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ],
+  "permissions": []
+}

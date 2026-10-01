@@ -1,0 +1,17 @@
+{
+  "name": "oxford-3000",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "cmu-pronouncing-dictionary": "^3.0.0"
+  }
+}

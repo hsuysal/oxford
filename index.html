@@ -1255,6 +1255,9 @@
             <span>Kalan:</span>
             <span class="stat-count" id="unmarkedCount">0</span>
           </div>
+          <button class="btn-base danger" id="headerResetMarksBtn" style="font-size:0.75rem; padding: 4px 10px; margin-left: 6px;" title="Öğrenme Listelerini Sıfırla">
+            🗑️ Sıfırla
+          </button>
         </div>
       </div>
 
@@ -1296,7 +1299,8 @@
 
         <div class="btn-group">
           <button class="btn-base" id="shuffleBtn" title="Kelimeleri Karıştır">🔀 Karıştır</button>
-          <button class="btn-base" id="resetFiltersBtn" title="Tüm Filtreleri Temizle">↺ Sıfırla</button>
+          <button class="btn-base" id="resetFiltersBtn" title="Arama ve Filtreleri Temizle">↺ Filtreleri Temizle</button>
+          <button class="btn-base danger" id="resetMarksBtn" title="Biliyorum ve Çalışılacak Listelerini Sıfırla">🗑️ Listeleri Sıfırla</button>
           <button class="btn-base" id="audioSpeedToggleBtn" title="Seslendirme Hızı">⚡ 1.0x</button>
         </div>
       </div>
@@ -1554,6 +1558,10 @@
           <span class="kbd-chip">C</span>
         </div>
         <div class="shortcut-row">
+          <span>Kelimenin İşaretini Kaldır</span>
+          <span class="kbd-chip">0</span>
+        </div>
+        <div class="shortcut-row">
           <span>Favorilere Ekle / Çıkar</span>
           <span class="kbd-chip">F</span>
         </div>
@@ -1561,6 +1569,46 @@
           <span>Mod Değiştir (Kart / Quiz / Sözlük)</span>
           <span class="kbd-chip">M</span>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reset Lists Confirmation Modal -->
+  <div class="modal-backdrop" id="resetModal" role="dialog" aria-modal="true" aria-labelledby="resetModalTitle">
+    <div class="modal-dialog">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 class="modal-title" id="resetModalTitle">🗑️ Listeleri Sıfırla</h3>
+        <button class="icon-action-btn" id="closeResetModalBtn" style="width: 32px; height: 32px;">✕</button>
+      </div>
+
+      <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">
+        Hangi listeyi sıfırlamak istiyorsunuz? Sıfırlanan kelimeler yeniden "Sıradaki (İşaretsiz)" havuzuna dönecektir.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 6px;">
+        <button class="btn-base danger" id="resetAllMarksBtn" style="justify-content: space-between; padding: 12px 16px; font-size: 0.95rem; width: 100%;">
+          <span>Tüm İşaretleri Sıfırla (Biliyorum + Çalışılacak)</span>
+          <span style="font-family: var(--font-mono); font-size: 0.8rem; opacity: 0.9;" id="resetTotalMarksCount">0 kelime</span>
+        </button>
+
+        <button class="btn-base" id="resetKnownOnlyBtn" style="justify-content: space-between; padding: 12px 16px; font-size: 0.9rem; color: var(--success); border-color: var(--success-border); width: 100%;">
+          <span>Sadece "Biliyorum" Listesini Sıfırla</span>
+          <span style="font-family: var(--font-mono); font-size: 0.8rem;" id="resetKnownCountBadge">0 kelime</span>
+        </button>
+
+        <button class="btn-base" id="resetUnknownOnlyBtn" style="justify-content: space-between; padding: 12px 16px; font-size: 0.9rem; color: var(--danger); border-color: var(--danger-border); width: 100%;">
+          <span>Sadece "Çalışılacak" Listesini Sıfırla</span>
+          <span style="font-family: var(--font-mono); font-size: 0.8rem;" id="resetUnknownCountBadge">0 kelime</span>
+        </button>
+
+        <button class="btn-base" id="resetStarredOnlyBtn" style="justify-content: space-between; padding: 12px 16px; font-size: 0.9rem; color: var(--star); border-color: var(--border-subtle); width: 100%;">
+          <span>⭐ Favorileri Sıfırla</span>
+          <span style="font-family: var(--font-mono); font-size: 0.8rem;" id="resetStarredCountBadge">0 kelime</span>
+        </button>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+        <button class="btn-base" id="cancelResetModalBtn">Vazgeç</button>
       </div>
     </div>
   </div>
@@ -1728,7 +1776,18 @@
       autoPlayPauseBtn: document.getElementById("autoPlayPauseBtn"),
       autoNextBtn: document.getElementById("autoNextBtn"),
       autoDelaySelect: document.getElementById("autoDelaySelect"),
-      autoIncludeSentence: document.getElementById("autoIncludeSentence")
+      autoIncludeSentence: document.getElementById("autoIncludeSentence"),
+
+      // Reset Modal & Buttons
+      headerResetMarksBtn: document.getElementById("headerResetMarksBtn"),
+      resetMarksBtn: document.getElementById("resetMarksBtn"),
+      resetModal: document.getElementById("resetModal"),
+      closeResetModalBtn: document.getElementById("closeResetModalBtn"),
+      cancelResetModalBtn: document.getElementById("cancelResetModalBtn"),
+      resetAllMarksBtn: document.getElementById("resetAllMarksBtn"),
+      resetKnownOnlyBtn: document.getElementById("resetKnownOnlyBtn"),
+      resetUnknownOnlyBtn: document.getElementById("resetUnknownOnlyBtn"),
+      resetStarredOnlyBtn: document.getElementById("resetStarredOnlyBtn")
     };
 
     // Initialize Application
@@ -1967,11 +2026,24 @@
       el.markUnknownBtn.classList.toggle("active", mark === "UNKNOWN");
 
       if (mark === "KNOWN") {
-        el.cardStatusIndicator.innerHTML = `<span class="card-status-badge known">✓ Biliyorum</span>`;
+        el.cardStatusIndicator.innerHTML = `
+          <span class="card-status-badge known">✓ Biliyorum</span>
+          <button class="btn-base" id="clearSingleMarkBtn" style="font-size:0.75rem; padding: 2px 8px; height: 26px;" title="İşareti Kaldır (0)">İşareti Kaldır</button>
+        `;
       } else if (mark === "UNKNOWN") {
-        el.cardStatusIndicator.innerHTML = `<span class="card-status-badge unknown">✕ Çalışılacak</span>`;
+        el.cardStatusIndicator.innerHTML = `
+          <span class="card-status-badge unknown">✕ Çalışılacak</span>
+          <button class="btn-base" id="clearSingleMarkBtn" style="font-size:0.75rem; padding: 2px 8px; height: 26px;" title="İşareti Kaldır (0)">İşareti Kaldır</button>
+        `;
       } else {
         el.cardStatusIndicator.innerHTML = `<span style="font-size: 0.8rem; color: var(--text-muted);">İşaretsiz</span>`;
+      }
+
+      const clearBtn = document.getElementById("clearSingleMarkBtn");
+      if (clearBtn) {
+        clearBtn.addEventListener("click", () => {
+          clearWordMark();
+        });
       }
     }
 
@@ -1992,18 +2064,32 @@
 
       if (state.marks[w.id] === value) {
         delete state.marks[w.id]; // toggle off
+        saveJSON(STORAGE_MARKS, state.marks);
+        updateCountersAndBadges();
+        renderFlashcard();
+        showToast("İşaret kaldırıldı");
+        return;
       } else {
         state.marks[w.id] = value;
-      }
+        saveJSON(STORAGE_MARKS, state.marks);
+        updateCountersAndBadges();
+        renderFlashcard();
 
+        // Automatically move forward when marking
+        setTimeout(() => {
+          navigateCard(1);
+        }, 160);
+      }
+    }
+
+    function clearWordMark() {
+      const w = getCurrentWord();
+      if (!w) return;
+      delete state.marks[w.id];
       saveJSON(STORAGE_MARKS, state.marks);
       updateCountersAndBadges();
       renderFlashcard();
-
-      // Automatically move forward when marking
-      setTimeout(() => {
-        navigateCard(1);
-      }, 160);
+      showToast("İşaret kaldırıldı");
     }
 
     function toggleStar(wordId) {
@@ -2012,14 +2098,118 @@
 
       if (state.starred[id]) {
         delete state.starred[id];
+        showToast("Favorilerden çıkarıldı");
       } else {
         state.starred[id] = true;
+        showToast("Favorilere eklendi ⭐");
       }
 
       saveJSON(STORAGE_STARRED, state.starred);
       updateCountersAndBadges();
       if (state.activeMode === "FLASHCARD") renderFlashcard();
       else if (state.activeMode === "GRID") renderDictionaryGrid();
+    }
+
+    // Reset Progress / Marks Logic
+    function openResetModal() {
+      let known = 0;
+      let unknown = 0;
+      let starred = 0;
+
+      for (const w of state.words) {
+        const m = state.marks[w.id];
+        if (m === "KNOWN") known++;
+        else if (m === "UNKNOWN") unknown++;
+        if (state.starred[w.id]) starred++;
+      }
+      const total = known + unknown;
+
+      const totalBadge = document.getElementById("resetTotalMarksCount");
+      const knownBadge = document.getElementById("resetKnownCountBadge");
+      const unknownBadge = document.getElementById("resetUnknownCountBadge");
+      const starredBadge = document.getElementById("resetStarredCountBadge");
+
+      if (totalBadge) totalBadge.textContent = `${total} kelime`;
+      if (knownBadge) knownBadge.textContent = `${known} kelime`;
+      if (unknownBadge) unknownBadge.textContent = `${unknown} kelime`;
+      if (starredBadge) starredBadge.textContent = `${starred} kelime`;
+
+      if (el.resetModal) el.resetModal.classList.add("is-open");
+    }
+
+    function closeResetModal() {
+      if (el.resetModal) el.resetModal.classList.remove("is-open");
+    }
+
+    function resetMarks(type) {
+      let clearedCount = 0;
+
+      if (type === "ALL") {
+        clearedCount = Object.keys(state.marks).length;
+        state.marks = {};
+        saveJSON(STORAGE_MARKS, state.marks);
+        showToast(`Tüm işaretler (${clearedCount} kelime) sıfırlandı.`);
+      } else if (type === "KNOWN") {
+        for (const k of Object.keys(state.marks)) {
+          if (state.marks[k] === "KNOWN") {
+            delete state.marks[k];
+            clearedCount++;
+          }
+        }
+        saveJSON(STORAGE_MARKS, state.marks);
+        showToast(`'Biliyorum' listesi (${clearedCount} kelime) sıfırlandı.`);
+      } else if (type === "UNKNOWN") {
+        for (const k of Object.keys(state.marks)) {
+          if (state.marks[k] === "UNKNOWN") {
+            delete state.marks[k];
+            clearedCount++;
+          }
+        }
+        saveJSON(STORAGE_MARKS, state.marks);
+        showToast(`'Çalışılacak' listesi (${clearedCount} kelime) sıfırlandı.`);
+      } else if (type === "STARRED") {
+        clearedCount = Object.keys(state.starred).length;
+        state.starred = {};
+        saveJSON(STORAGE_STARRED, state.starred);
+        showToast(`Favoriler (${clearedCount} kelime) sıfırlandı.`);
+      }
+
+      applyFilters(false);
+      updateCountersAndBadges();
+      renderCurrentMode();
+      closeResetModal();
+    }
+
+    function showToast(message) {
+      let toast = document.getElementById("appToast");
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "appToast";
+        toast.style.position = "fixed";
+        toast.style.bottom = "24px";
+        toast.style.left = "50%";
+        toast.style.transform = "translateX(-50%) translateY(20px)";
+        toast.style.background = "var(--text-primary)";
+        toast.style.color = "var(--bg-surface)";
+        toast.style.padding = "10px 20px";
+        toast.style.borderRadius = "var(--radius-md)";
+        toast.style.fontSize = "0.875rem";
+        toast.style.fontWeight = "600";
+        toast.style.boxShadow = "var(--shadow-lg)";
+        toast.style.zIndex = "999";
+        toast.style.opacity = "0";
+        toast.style.transition = "all 0.25s ease";
+        toast.style.pointerEvents = "none";
+        document.body.appendChild(toast);
+      }
+      toast.textContent = message;
+      toast.style.opacity = "1";
+      toast.style.transform = "translateX(-50%) translateY(0)";
+      clearTimeout(toast.timer);
+      toast.timer = setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(-50%) translateY(20px)";
+      }, 2500);
     }
 
     // 2. QUIZ LOGIC
@@ -2379,6 +2569,22 @@
       el.emptyResetBtn.addEventListener("click", resetAllFilters);
       el.audioSpeedToggleBtn.addEventListener("click", toggleAudioSpeed);
 
+      // Reset Marks Modal Events
+      if (el.headerResetMarksBtn) el.headerResetMarksBtn.addEventListener("click", openResetModal);
+      if (el.resetMarksBtn) el.resetMarksBtn.addEventListener("click", openResetModal);
+      if (el.closeResetModalBtn) el.closeResetModalBtn.addEventListener("click", closeResetModal);
+      if (el.cancelResetModalBtn) el.cancelResetModalBtn.addEventListener("click", closeResetModal);
+      if (el.resetModal) {
+        el.resetModal.addEventListener("click", (e) => {
+          if (e.target === el.resetModal) closeResetModal();
+        });
+      }
+
+      if (el.resetAllMarksBtn) el.resetAllMarksBtn.addEventListener("click", () => resetMarks("ALL"));
+      if (el.resetKnownOnlyBtn) el.resetKnownOnlyBtn.addEventListener("click", () => resetMarks("KNOWN"));
+      if (el.resetUnknownOnlyBtn) el.resetUnknownOnlyBtn.addEventListener("click", () => resetMarks("UNKNOWN"));
+      if (el.resetStarredOnlyBtn) el.resetStarredOnlyBtn.addEventListener("click", () => resetMarks("STARRED"));
+
       // Flashcard interactions
       el.cardFlipper.addEventListener("click", flipCard);
       el.manualFlipBtn.addEventListener("click", flipCard);
@@ -2469,6 +2675,7 @@
 
         if (e.key === "Escape") {
           el.shortcutsModal.classList.remove("is-open");
+          closeResetModal();
           return;
         }
 
@@ -2500,6 +2707,9 @@
           } else if (e.key === "2") {
             e.preventDefault();
             setWordMark("UNKNOWN");
+          } else if (e.key === "0") {
+            e.preventDefault();
+            clearWordMark();
           } else if (e.key.toLowerCase() === "s") {
             e.preventDefault();
             const w = getCurrentWord();

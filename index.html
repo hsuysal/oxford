@@ -1218,6 +1218,10 @@
     </nav>
 
     <div class="actions-zone">
+      <button class="btn-base" id="syncModalBtn" style="font-size: 0.8rem; padding: 6px 12px; gap: 6px;" title="Cihaz Eşitleme (QR & Kod)">
+        <span id="syncStatusDot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); display: inline-block;"></span>
+        <span id="syncBtnLabel">📲 Cihaz Eşitle</span>
+      </button>
       <button class="icon-action-btn" id="shortcutsBtn" title="Klavye Kısayolları (H)" aria-label="Klavye Kısayolları">
         ⌨️
       </button>
@@ -1613,6 +1617,93 @@
     </div>
   </div>
 
+  <!-- Device Sync Modal -->
+  <div class="modal-backdrop" id="syncModal" role="dialog" aria-modal="true" aria-labelledby="syncModalTitle">
+    <div class="modal-dialog" style="max-width: 520px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 class="modal-title" id="syncModalTitle">📲 Cihazlar Arası Eşitleme</h3>
+        <button class="icon-action-btn" id="closeSyncModalBtn" style="width: 32px; height: 32px;">✕</button>
+      </div>
+
+      <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">
+        E-posta veya şifre gerekmez! Tablet veya telefonunuzu bağlayarak aynı kelime ilerlemesini tüm cihazlarınızda sürdürün.
+      </p>
+
+      <!-- ACTIVE SYNC VIEW (When a code is linked) -->
+      <div id="syncActiveView" class="hidden" style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="background: var(--success-subtle); border: 1px solid var(--success-border); border-radius: var(--radius-md); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700; color: var(--success); letter-spacing: 0.05em;">Bağlı Eşitleme Kodu</div>
+            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 800; color: var(--text-primary); letter-spacing: 0.05em;" id="activeSyncCodeDisplay">-</div>
+          </div>
+          <button class="btn-base" id="copySyncCodeBtn" style="font-size: 0.8rem; padding: 6px 12px;">📋 Kodu Kopyala</button>
+        </div>
+
+        <div style="text-align: center; background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+          <div style="font-size: 0.825rem; font-weight: 600; color: var(--text-secondary);">
+            📷 Telefonunuzun Kamerasıyla Bu QR Kodu Okutun:
+          </div>
+          <div style="background: #ffffff; padding: 10px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); display: inline-flex;">
+            <img id="syncQrImg" src="" alt="Eşitleme QR Kodu" style="width: 170px; height: 170px; display: block;" />
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); max-width: 360px;">
+            Kamerayı okuttuğunuzda telefonunuz doğrudan bu koda bağlanır ve tüm kelimeleriniz iki cihazda ortak çalışır.
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-base primary" id="manualSyncNowBtn" style="flex: 1; justify-content: center; padding: 10px;">
+            🔄 Şimdi Senkronize Et
+          </button>
+          <button class="btn-base danger" id="disconnectSyncBtn" style="padding: 10px 14px;" title="Bağlantıyı Kes">
+            Bağlantıyı Kes
+          </button>
+        </div>
+      </div>
+
+      <!-- INACTIVE SYNC VIEW (When no code yet) -->
+      <div id="syncInactiveView" style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary);">
+            1. Bu Cihazdan Kod Al (Örn: Tabletiniz)
+          </div>
+          <p style="font-size: 0.825rem; color: var(--text-secondary); margin: 0;">
+            Şu anki ilerlemenizi kaydedecek tek kullanımlık bir eşitleme kodu ve QR kod üretir.
+          </p>
+          <button class="btn-base primary" id="generateNewSyncCodeBtn" style="justify-content: center; padding: 10px; font-weight: 700;">
+            ✨ Yeni Eşitleme Kodu Oluştur
+          </button>
+        </div>
+
+        <div style="background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary);">
+            2. Başka Cihazdaki Kod ile Bağlan (Örn: Telefonunuz)
+          </div>
+          <p style="font-size: 0.825rem; color: var(--text-secondary); margin: 0;">
+            Tabletinizde gördüğünüz eşitleme kodunu girerek ilerlemenizi telefonunuza çekin.
+          </p>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="inputSyncCode" class="search-input" placeholder="Örn: OX-R267" style="text-transform: uppercase; font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.05em; padding-left: 12px;" maxlength="10">
+            <button class="btn-base success" id="connectWithCodeBtn" style="white-space: nowrap; font-weight: 700; padding: 0 16px;">
+              🔗 Bağlan
+            </button>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-subtle); padding-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <span style="font-size: 0.78rem; color: var(--text-muted);">Çevrimdışı Dosya Yedeği:</span>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-base" id="exportBackupBtn" style="font-size: 0.78rem; padding: 5px 10px;">📥 Yedeği İndir (JSON)</button>
+            <label class="btn-base" style="font-size: 0.78rem; padding: 5px 10px; cursor: pointer;">
+              📤 Yedek Yükle
+              <input type="file" id="importBackupInput" accept=".json" style="display: none;">
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="words.js"></script>
 
   <script>
@@ -1623,6 +1714,7 @@
     const STORAGE_STARRED = "oxford_starred_v1";
     const STORAGE_THEME = "oxford_theme_v1";
     const STORAGE_SPEED = "oxford_speed_v1";
+    const STORAGE_SYNC_CODE = "oxford_sync_code_v1";
 
     const allWords = Array.isArray(window.WORDS) ? window.WORDS : [];
     if (allWords.length === 0) {
@@ -1642,6 +1734,7 @@
       levelFilter: "ALL",
       typeFilter: "ALL",
       searchQuery: "",
+      syncCode: localStorage.getItem(STORAGE_SYNC_CODE) || null,
       
       marks: loadJSON(STORAGE_MARKS, {}),
       starred: loadJSON(STORAGE_STARRED, {}),
@@ -1787,7 +1880,26 @@
       resetAllMarksBtn: document.getElementById("resetAllMarksBtn"),
       resetKnownOnlyBtn: document.getElementById("resetKnownOnlyBtn"),
       resetUnknownOnlyBtn: document.getElementById("resetUnknownOnlyBtn"),
-      resetStarredOnlyBtn: document.getElementById("resetStarredOnlyBtn")
+      resetStarredOnlyBtn: document.getElementById("resetStarredOnlyBtn"),
+
+      // Sync Modal & Buttons
+      syncModalBtn: document.getElementById("syncModalBtn"),
+      syncStatusDot: document.getElementById("syncStatusDot"),
+      syncBtnLabel: document.getElementById("syncBtnLabel"),
+      syncModal: document.getElementById("syncModal"),
+      closeSyncModalBtn: document.getElementById("closeSyncModalBtn"),
+      syncActiveView: document.getElementById("syncActiveView"),
+      activeSyncCodeDisplay: document.getElementById("activeSyncCodeDisplay"),
+      copySyncCodeBtn: document.getElementById("copySyncCodeBtn"),
+      syncQrImg: document.getElementById("syncQrImg"),
+      manualSyncNowBtn: document.getElementById("manualSyncNowBtn"),
+      disconnectSyncBtn: document.getElementById("disconnectSyncBtn"),
+      syncInactiveView: document.getElementById("syncInactiveView"),
+      generateNewSyncCodeBtn: document.getElementById("generateNewSyncCodeBtn"),
+      inputSyncCode: document.getElementById("inputSyncCode"),
+      connectWithCodeBtn: document.getElementById("connectWithCodeBtn"),
+      exportBackupBtn: document.getElementById("exportBackupBtn"),
+      importBackupInput: document.getElementById("importBackupInput")
     };
 
     // Initialize Application
@@ -1804,6 +1916,17 @@
       bindEvents();
       setupSpeechVoices();
       renderCurrentMode();
+      updateSyncUI();
+
+      // Check URL query param ?sync=OX-XXXX (e.g. from camera QR scan)
+      const urlParams = new URLSearchParams(window.location.search);
+      const syncParam = urlParams.get('sync');
+      if (syncParam) {
+        connectToSyncCode(syncParam, true);
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } else if (state.syncCode) {
+        pullSyncData(state.syncCode, false);
+      }
     }
 
     // Theme Management
@@ -2067,6 +2190,7 @@
         saveJSON(STORAGE_MARKS, state.marks);
         updateCountersAndBadges();
         renderFlashcard();
+        triggerAutoSync();
         showToast("İşaret kaldırıldı");
         return;
       } else {
@@ -2074,6 +2198,7 @@
         saveJSON(STORAGE_MARKS, state.marks);
         updateCountersAndBadges();
         renderFlashcard();
+        triggerAutoSync();
 
         // Automatically move forward when marking
         setTimeout(() => {
@@ -2089,6 +2214,7 @@
       saveJSON(STORAGE_MARKS, state.marks);
       updateCountersAndBadges();
       renderFlashcard();
+      triggerAutoSync();
       showToast("İşaret kaldırıldı");
     }
 
@@ -2106,6 +2232,7 @@
 
       saveJSON(STORAGE_STARRED, state.starred);
       updateCountersAndBadges();
+      triggerAutoSync();
       if (state.activeMode === "FLASHCARD") renderFlashcard();
       else if (state.activeMode === "GRID") renderDictionaryGrid();
     }
@@ -2177,6 +2304,7 @@
       applyFilters(false);
       updateCountersAndBadges();
       renderCurrentMode();
+      triggerAutoSync();
       closeResetModal();
     }
 
@@ -2210,6 +2338,198 @@
         toast.style.opacity = "0";
         toast.style.transform = "translateX(-50%) translateY(20px)";
       }, 2500);
+    }
+
+    // Device Sync Logic
+    function updateSyncUI() {
+      const code = state.syncCode;
+      if (code) {
+        if (el.syncBtnLabel) el.syncBtnLabel.textContent = `📲 ${code}`;
+        if (el.syncStatusDot) el.syncStatusDot.style.background = "var(--success)";
+        if (el.syncActiveView) el.syncActiveView.classList.remove("hidden");
+        if (el.syncInactiveView) el.syncInactiveView.classList.add("hidden");
+        if (el.activeSyncCodeDisplay) el.activeSyncCodeDisplay.textContent = code;
+        if (el.syncQrImg) el.syncQrImg.src = `/api/sync/qr/${code}`;
+      } else {
+        if (el.syncBtnLabel) el.syncBtnLabel.textContent = "📲 Cihaz Eşitle";
+        if (el.syncStatusDot) el.syncStatusDot.style.background = "var(--border-strong)";
+        if (el.syncActiveView) el.syncActiveView.classList.add("hidden");
+        if (el.syncInactiveView) el.syncInactiveView.classList.remove("hidden");
+      }
+    }
+
+    function openSyncModal() {
+      updateSyncUI();
+      if (el.syncModal) el.syncModal.classList.add("is-open");
+    }
+
+    function closeSyncModal() {
+      if (el.syncModal) el.syncModal.classList.remove("is-open");
+    }
+
+    let autoSyncTimer = null;
+    function triggerAutoSync() {
+      if (!state.syncCode) return;
+      clearTimeout(autoSyncTimer);
+      autoSyncTimer = setTimeout(async () => {
+        try {
+          await fetch('/api/sync/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              code: state.syncCode,
+              marks: state.marks,
+              starred: state.starred,
+              lastIndex: state.currentIndex
+            })
+          });
+        } catch (err) {
+          console.warn('Auto sync warning:', err);
+        }
+      }, 700);
+    }
+
+    async function generateNewSyncCode() {
+      try {
+        const res = await fetch('/api/sync/new-code');
+        const data = await res.json();
+        if (!data || !data.code) throw new Error("Kod üretilemedi");
+
+        state.syncCode = data.code;
+        localStorage.setItem(STORAGE_SYNC_CODE, state.syncCode);
+
+        // Save current local data to this new code
+        await fetch('/api/sync/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            code: state.syncCode,
+            marks: state.marks,
+            starred: state.starred,
+            lastIndex: state.currentIndex
+          })
+        });
+
+        updateSyncUI();
+        showToast(`✨ Eşitleme kodu oluşturuldu: ${state.syncCode}`);
+      } catch (err) {
+        showToast("Eşitleme kodu oluşturulamadı, lütfen tekrar deneyin.");
+      }
+    }
+
+    async function connectToSyncCode(codeToConnect, isFromUrl = false) {
+      if (!codeToConnect) return;
+      const cleanCode = codeToConnect.trim().toUpperCase();
+      try {
+        const res = await fetch(`/api/sync/load/${cleanCode}`);
+        const data = await res.json();
+        if (data && data.found && data.data) {
+          state.syncCode = cleanCode;
+          localStorage.setItem(STORAGE_SYNC_CODE, cleanCode);
+
+          const remote = data.data;
+          state.marks = remote.marks || {};
+          state.starred = remote.starred || {};
+          saveJSON(STORAGE_MARKS, state.marks);
+          saveJSON(STORAGE_STARRED, state.starred);
+
+          applyFilters(false);
+          updateCountersAndBadges();
+          renderCurrentMode();
+          updateSyncUI();
+
+          const count = Object.keys(state.marks).length;
+          showToast(`📲 Başarıyla eşitlendi! (${cleanCode} - ${count} kelime yüklendi)`);
+          if (!isFromUrl) closeSyncModal();
+        } else {
+          showToast(`'${cleanCode}' koduna ait kayıt bulunamadı.`);
+        }
+      } catch (err) {
+        showToast("Sunucuya bağlanılamadı, internet bağlantınızı kontrol edin.");
+      }
+    }
+
+    async function pullSyncData(code, showFeedback = false) {
+      if (!code) return;
+      try {
+        const res = await fetch(`/api/sync/load/${code}`);
+        const data = await res.json();
+        if (data && data.found && data.data) {
+          state.marks = data.data.marks || {};
+          state.starred = data.data.starred || {};
+          saveJSON(STORAGE_MARKS, state.marks);
+          saveJSON(STORAGE_STARRED, state.starred);
+
+          applyFilters(false);
+          updateCountersAndBadges();
+          renderCurrentMode();
+          if (showFeedback) showToast("Bulut ile başarıyla eşitlendi!");
+        }
+      } catch (err) {
+        if (showFeedback) showToast("Eşitleme başarısız oldu.");
+      }
+    }
+
+    function manualSyncNow() {
+      if (!state.syncCode) return;
+      triggerAutoSync();
+      pullSyncData(state.syncCode, true);
+    }
+
+    function disconnectSync() {
+      state.syncCode = null;
+      localStorage.removeItem(STORAGE_SYNC_CODE);
+      updateSyncUI();
+      showToast("Eşitleme bağlantısı kaldırıldı.");
+    }
+
+    function exportBackup() {
+      const backupData = {
+        app: "oxford-3000",
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        marks: state.marks,
+        starred: state.starred
+      };
+      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `oxford3000_yedek_${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Yedek dosyası indirildi 📥");
+    }
+
+    function importBackup(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed && typeof parsed.marks === "object") {
+            state.marks = { ...state.marks, ...parsed.marks };
+            if (typeof parsed.starred === "object") {
+              state.starred = { ...state.starred, ...parsed.starred };
+            }
+            saveJSON(STORAGE_MARKS, state.marks);
+            saveJSON(STORAGE_STARRED, state.starred);
+            applyFilters(false);
+            updateCountersAndBadges();
+            renderCurrentMode();
+            triggerAutoSync();
+            showToast("Yedek başarıyla yüklendi! ✅");
+            closeSyncModal();
+          } else {
+            showToast("Geçersiz yedek dosyası formatı.");
+          }
+        } catch (err) {
+          showToast("Yedek dosyası okunamadı.");
+        }
+      };
+      reader.readAsText(file);
     }
 
     // 2. QUIZ LOGIC
@@ -2585,6 +2905,53 @@
       if (el.resetUnknownOnlyBtn) el.resetUnknownOnlyBtn.addEventListener("click", () => resetMarks("UNKNOWN"));
       if (el.resetStarredOnlyBtn) el.resetStarredOnlyBtn.addEventListener("click", () => resetMarks("STARRED"));
 
+      // Device Sync Modal Events
+      if (el.syncModalBtn) el.syncModalBtn.addEventListener("click", openSyncModal);
+      if (el.closeSyncModalBtn) el.closeSyncModalBtn.addEventListener("click", closeSyncModal);
+      if (el.syncModal) {
+        el.syncModal.addEventListener("click", (e) => {
+          if (e.target === el.syncModal) closeSyncModal();
+        });
+      }
+      if (el.generateNewSyncCodeBtn) el.generateNewSyncCodeBtn.addEventListener("click", generateNewSyncCode);
+      if (el.connectWithCodeBtn) {
+        el.connectWithCodeBtn.addEventListener("click", () => {
+          if (el.inputSyncCode && el.inputSyncCode.value) {
+            connectToSyncCode(el.inputSyncCode.value.trim());
+          } else {
+            showToast("Lütfen bir eşitleme kodu girin.");
+          }
+        });
+      }
+      if (el.inputSyncCode) {
+        el.inputSyncCode.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            if (el.inputSyncCode.value) connectToSyncCode(el.inputSyncCode.value.trim());
+          }
+        });
+      }
+      if (el.copySyncCodeBtn) {
+        el.copySyncCodeBtn.addEventListener("click", () => {
+          if (state.syncCode) {
+            navigator.clipboard.writeText(state.syncCode).then(() => {
+              showToast("Eşitleme kodu panoya kopyalandı! 📋");
+            }).catch(() => {
+              showToast(`Kod: ${state.syncCode}`);
+            });
+          }
+        });
+      }
+      if (el.manualSyncNowBtn) el.manualSyncNowBtn.addEventListener("click", manualSyncNow);
+      if (el.disconnectSyncBtn) el.disconnectSyncBtn.addEventListener("click", disconnectSync);
+      if (el.exportBackupBtn) el.exportBackupBtn.addEventListener("click", exportBackup);
+      if (el.importBackupInput) {
+        el.importBackupInput.addEventListener("change", (e) => {
+          if (e.target.files && e.target.files[0]) {
+            importBackup(e.target.files[0]);
+          }
+        });
+      }
+
       // Flashcard interactions
       el.cardFlipper.addEventListener("click", flipCard);
       el.manualFlipBtn.addEventListener("click", flipCard);
@@ -2676,6 +3043,7 @@
         if (e.key === "Escape") {
           el.shortcutsModal.classList.remove("is-open");
           closeResetModal();
+          closeSyncModal();
           return;
         }
 

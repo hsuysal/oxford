@@ -1169,26 +1169,411 @@
     /* Utilities & Responsiveness */
     .hidden { display: none !important; }
 
-    @media (max-width: 640px) {
+    /* Responsive Architecture for Mobile, Tablet, and Desktop */
+    @media (max-width: 768px) {
+      body {
+        padding-bottom: 74px; /* Space for fixed bottom navigation */
+      }
+
       .top-bar {
+        height: 52px;
         padding: 0 12px;
       }
+
+      .brand-zone {
+        font-size: 1.125rem;
+        gap: 6px;
+      }
+
       .brand-badge {
         display: none;
       }
+
+      .actions-zone {
+        gap: 6px;
+      }
+
+      #syncBtnLabel {
+        display: none;
+      }
+
+      #syncModalBtn {
+        padding: 6px 10px !important;
+        font-size: 0.8rem;
+      }
+
+      #shortcutsBtn {
+        display: none;
+      }
+
+      .icon-action-btn {
+        width: 34px;
+        height: 34px;
+      }
+
+      /* Fixed Mobile Bottom Navigation */
+      .nav-zone {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 95;
+        background: var(--bg-surface);
+        border-top: 1px solid var(--border-subtle);
+        border-radius: 0;
+        padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 4px;
+        box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.08);
+        backdrop-filter: blur(12px);
+      }
+
       .nav-tab-btn {
-        padding: 6px 10px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        padding: 6px 2px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        min-height: 48px;
+        border-radius: var(--radius-sm);
+        white-space: nowrap;
+      }
+
+      .nav-tab-btn span:first-child {
+        font-size: 1.15rem;
+        line-height: 1;
+      }
+
+      .app-container {
+        padding: 0 10px 20px;
+        gap: 10px;
+      }
+
+      /* Progress Bar Card Mobile */
+      .progress-bar-card {
+        padding: 10px 12px;
+        gap: 8px;
+        border-radius: var(--radius-md);
+      }
+
+      .progress-header {
+        gap: 6px;
         font-size: 0.78rem;
+        flex-direction: column;
+        align-items: flex-start;
       }
-      .card-face {
-        padding: 20px;
+
+      .progress-meta {
+        font-size: 0.78rem;
+        gap: 6px;
+        width: 100%;
+        justify-content: space-between;
       }
-      .card-action-bar {
-        grid-template-columns: 1fr;
-      }
+
       .progress-stat-group {
         width: 100%;
         justify-content: space-between;
+        gap: 6px;
+        font-size: 0.78rem;
+      }
+
+      .stat-pill-label {
+        gap: 4px;
+      }
+
+      #headerResetMarksBtn {
+        display: none;
+      }
+
+      .progress-track {
+        height: 6px;
+      }
+
+      /* Controls Panel Mobile */
+      .controls-panel {
+        padding: 10px 12px;
+        gap: 8px;
+        border-radius: var(--radius-md);
+      }
+
+      .filter-row {
+        gap: 6px;
+      }
+
+      .search-wrapper {
+        min-width: 100%;
+      }
+
+      .search-input {
+        height: 38px;
+        font-size: 0.85rem;
+        padding: 0 12px 0 34px;
+      }
+
+      .select-dropdown {
+        height: 36px;
+        font-size: 0.8rem;
+        flex: 1;
+        min-width: 120px;
+        padding: 0 28px 0 10px;
+      }
+
+      .secondary-controls {
+        padding-top: 6px;
+        gap: 8px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .segmented-filter {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 2px;
+        padding: 2px;
+      }
+
+      .segmented-filter::-webkit-scrollbar {
+        display: none;
+      }
+
+      .seg-btn {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        flex-shrink: 0;
+      }
+
+      .btn-group {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .btn-base {
+        height: 34px;
+        padding: 6px 10px;
+        font-size: 0.78rem;
+      }
+
+      /* Flashcard View Mobile: Fits perfectly on phone screen */
+      .flashcard-stage {
+        gap: 10px;
+        margin: 2px 0;
+      }
+
+      .flashcard-outer-box {
+        width: 100%;
+        min-height: 250px;
+        height: clamp(240px, 34vh, 310px);
+      }
+
+      .card-flipper {
+        min-height: 250px;
+        height: 100%;
+      }
+
+      .card-face {
+        padding: 14px 16px;
+        border-radius: var(--radius-lg);
+      }
+
+      .card-top-info {
+        gap: 8px;
+      }
+
+      .card-meta-line {
+        font-size: 0.78rem;
+        gap: 6px;
+      }
+
+      .cefr-tag {
+        font-size: 0.72rem;
+        padding: 1px 6px;
+      }
+
+      .card-icon-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+      }
+
+      .card-center-content {
+        padding: 4px 0;
+        gap: 6px;
+      }
+
+      .word-en-hero {
+        font-size: clamp(1.75rem, 6.5vw, 2.35rem);
+        line-height: 1.15;
+      }
+
+      .word-pron-guide {
+        padding: 3px 10px;
+        font-size: 0.825rem;
+        gap: 6px;
+      }
+
+      .card-bottom-hint {
+        font-size: 0.68rem;
+        gap: 4px;
+      }
+
+      /* Card Back Mobile */
+      .meaning-box {
+        padding: 8px 12px;
+        border-radius: var(--radius-md);
+      }
+
+      .meaning-label {
+        font-size: 0.68rem;
+        margin-bottom: 2px;
+      }
+
+      .meaning-text {
+        font-size: clamp(1.15rem, 4.5vw, 1.45rem);
+      }
+
+      .sentence-block {
+        padding: 8px 10px;
+        gap: 4px;
+        border-radius: var(--radius-sm);
+      }
+
+      .sent-en {
+        font-size: 0.825rem;
+        line-height: 1.35;
+      }
+
+      .sent-tr {
+        font-size: 0.75rem;
+      }
+
+      /* Card Nav & Actions Mobile */
+      .card-nav-controls {
+        width: 100%;
+        gap: 6px;
+        padding: 0 2px;
+      }
+
+      .card-counter {
+        font-size: 0.825rem;
+      }
+
+      /* 3 Buttons in single row on mobile with 48px touch target */
+      .card-action-bar {
+        display: grid;
+        grid-template-columns: 1fr 1.1fr 1fr;
+        gap: 6px;
+        width: 100%;
+      }
+
+      .study-action-btn {
+        height: 48px;
+        border-radius: var(--radius-md);
+        font-size: 0.85rem;
+        font-weight: 700;
+        padding: 0 4px;
+        gap: 4px;
+      }
+
+      .shortcut-key-hint {
+        display: none;
+      }
+
+      /* Quiz View Mobile */
+      .quiz-container {
+        gap: 10px;
+        margin: 4px auto;
+      }
+
+      .quiz-score-header {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+        gap: 6px;
+        border-radius: var(--radius-md);
+      }
+
+      .quiz-card {
+        padding: 16px;
+        gap: 12px;
+        border-radius: var(--radius-lg);
+      }
+
+      .quiz-target-word {
+        font-size: clamp(1.6rem, 5.5vw, 2.1rem);
+      }
+
+      .quiz-options-grid {
+        gap: 8px;
+      }
+
+      .quiz-option-btn {
+        padding: 12px 14px;
+        font-size: 0.88rem;
+        min-height: 48px;
+      }
+
+      /* Dictionary Grid Mobile */
+      .dictionary-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .dict-word-card {
+        padding: 14px 16px;
+        gap: 10px;
+        border-radius: var(--radius-md);
+      }
+
+      /* Autoplay Mobile */
+      .autoplay-stage {
+        padding: 24px 16px;
+        gap: 16px;
+        margin: 10px auto;
+        border-radius: var(--radius-lg);
+      }
+
+      /* Modals Mobile */
+      .modal-dialog {
+        padding: 18px 16px;
+        max-width: 94vw;
+        max-height: 88vh;
+        overflow-y: auto;
+        border-radius: var(--radius-lg);
+      }
+    }
+
+    /* Tablet Optimizations */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .app-container {
+        padding: 0 16px 32px;
+        gap: 16px;
+      }
+
+      .dictionary-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .flashcard-outer-box {
+        max-width: 600px;
+        min-height: 370px;
+      }
+
+      .card-action-bar {
+        max-width: 600px;
+      }
+
+      .quiz-container {
+        max-width: 600px;
       }
     }
   </style>
@@ -1718,6 +2103,30 @@
     // Speech Voice Cache
     let englishVoice = null;
 
+    function loadInitialMarks() {
+      // Check current and legacy storage keys
+      let marks = loadJSON(STORAGE_MARKS, null);
+      if (!marks || Object.keys(marks).length === 0) {
+        marks = loadJSON("oxford_marks_v1", null) 
+             || loadJSON("oxford_marks", null) 
+             || loadJSON("oxford_progress", null) 
+             || {};
+      }
+
+      // Restore the 140 previously marked "KNOWN" words (IDs 1 to 140)
+      const knownCount = Object.values(marks).filter(m => m === "KNOWN").length;
+      if (knownCount < 140) {
+        for (let i = 1; i <= 140; i++) {
+          if (!marks[String(i)]) {
+            marks[String(i)] = "KNOWN";
+          }
+        }
+        saveJSON(STORAGE_MARKS, marks);
+        saveJSON("oxford_marks_v1", marks);
+      }
+      return marks;
+    }
+
     // App State
     const state = {
       words: allWords,
@@ -1730,7 +2139,7 @@
       searchQuery: "",
       syncCode: localStorage.getItem(STORAGE_SYNC_CODE) || null,
       
-      marks: loadJSON(STORAGE_MARKS, {}),
+      marks: loadInitialMarks(),
       starred: loadJSON(STORAGE_STARRED, {}),
       theme: localStorage.getItem(STORAGE_THEME) || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"),
       audioSpeed: parseFloat(localStorage.getItem(STORAGE_SPEED) || "1.0"),
@@ -1908,6 +2317,12 @@
       el.totalWordsCount.textContent = state.words.length.toLocaleString();
       
       applyFilters(true);
+
+      // Resume directly from the 141st word (#141 Appropriate)
+      if (state.filtered.length > 140 && state.statusFilter === "ALL") {
+        state.currentIndex = 140;
+      }
+
       bindEvents();
       setupSpeechVoices();
       renderCurrentMode();

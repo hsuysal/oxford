@@ -2095,16 +2095,16 @@
       el.cardFlipper.classList.remove("is-flipped");
 
       if (!w) {
-        el.cardWordEn.textContent = "Kayıt Yok";
-        el.cardWordPron.textContent = "-";
-        el.cardCefr.textContent = "-";
-        el.cardType.textContent = "-";
-        el.cardIdNum.textContent = "#0";
-        el.cardWordTr.textContent = "Sonuç bulunamadı";
-        el.cardSentEn.textContent = "-";
-        el.cardSentTr.textContent = "-";
+        el.cardWordEn.textContent = "🎉 Harika!";
+        el.cardWordPron.textContent = "Liste Tamamlandı";
+        el.cardCefr.textContent = "✓";
+        el.cardType.textContent = "";
+        el.cardIdNum.textContent = "";
+        el.cardWordTr.textContent = "Bu listedeki tüm kelimeleri tamamladınız.";
+        el.cardSentEn.textContent = "Diğer listelere geçebilir veya filtreleri sıfırlayabilirsiniz.";
+        el.cardSentTr.textContent = "";
         el.cardCounter.textContent = "0 / 0";
-        el.cardStatusIndicator.innerHTML = "";
+        el.cardStatusIndicator.innerHTML = `<span style="font-size: 0.85rem; color: var(--success); font-weight: 700;">✓ Tamamlandı</span>`;
         return;
       }
 
@@ -2165,6 +2165,8 @@
     function navigateCard(delta) {
       if (state.filtered.length === 0) return;
       state.currentIndex = (state.currentIndex + delta + state.filtered.length) % state.filtered.length;
+      state.isCardFlipped = false;
+      el.cardFlipper.classList.remove("is-flipped");
       renderFlashcard();
     }
 
@@ -2172,25 +2174,21 @@
       const w = getCurrentWord();
       if (!w) return;
 
-      if (state.marks[w.id] === value) {
-        delete state.marks[w.id]; // toggle off
-        saveJSON(STORAGE_MARKS, state.marks);
-        updateCountersAndBadges();
-        renderFlashcard();
-        triggerAutoSync();
-        showToast("İşaret kaldırıldı");
-        return;
-      } else {
-        state.marks[w.id] = value;
-        saveJSON(STORAGE_MARKS, state.marks);
-        updateCountersAndBadges();
-        renderFlashcard();
-        triggerAutoSync();
+      state.marks[w.id] = value;
+      saveJSON(STORAGE_MARKS, state.marks);
+      triggerAutoSync();
 
-        // Automatically move forward when marking
-        setTimeout(() => {
-          navigateCard(1);
-        }, 160);
+      state.isCardFlipped = false;
+      el.cardFlipper.classList.remove("is-flipped");
+
+      if (state.statusFilter === "ALL") {
+        updateCountersAndBadges();
+        navigateCard(1);
+      } else {
+        // If on UNMARKED, KNOWN, UNKNOWN, etc.
+        // re-filter so the marked word leaves the current list and the next word appears immediately
+        applyFilters(false);
+        renderFlashcard();
       }
     }
 
@@ -2483,6 +2481,13 @@
 
     function closeSyncModal() {
       if (el.syncModal) el.syncModal.classList.remove("is-open");
+    }
+
+    function triggerAutoSync() {
+      // If sync modal is open, keep the QR code and data summary updated
+      if (el.syncModal && el.syncModal.classList.contains("is-open")) {
+        renderSyncQR();
+      }
     }
 
     function switchSyncTab(tab) {

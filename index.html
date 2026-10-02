@@ -1193,13 +1193,22 @@
         gap: 6px;
       }
 
-      #syncBtnLabel {
-        display: none;
+      #syncModalBtn {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 11px !important;
+        font-size: 0.8rem !important;
+        font-weight: 700;
+        background: var(--accent-subtle) !important;
+        border: 1px solid var(--accent-border) !important;
+        color: var(--accent) !important;
+        border-radius: var(--radius-md);
+        white-space: nowrap;
       }
 
-      #syncModalBtn {
-        padding: 6px 10px !important;
-        font-size: 0.8rem;
+      #syncBtnLabel {
+        display: inline !important;
       }
 
       #shortcutsBtn {
@@ -1600,6 +1609,9 @@
       <button class="nav-tab-btn" id="tabAutoplay" data-mode="AUTOPLAY">
         <span>🎧</span> Dinle
       </button>
+      <button class="nav-tab-btn" id="tabSync" type="button" title="Cihaz Eşitleme (QR Kod)">
+        <span>📲</span> Eşitle
+      </button>
     </nav>
 
     <div class="actions-zone">
@@ -1688,6 +1700,7 @@
 
         <div class="btn-group">
           <button class="btn-base" id="shuffleBtn" title="Kelimeleri Karıştır">🔀 Karıştır</button>
+          <button class="btn-base" id="secondarySyncBtn" title="Cihaz Eşitleme (QR Kod)">📲 Cihaz Eşitle</button>
           <button class="btn-base" id="resetFiltersBtn" title="Arama ve Filtreleri Temizle">↺ Filtreleri Temizle</button>
           <button class="btn-base danger" id="resetMarksBtn" title="Biliyorum ve Çalışılacak Listelerini Sıfırla">🗑️ Listeleri Sıfırla</button>
           <button class="btn-base" id="audioSpeedToggleBtn" title="Seslendirme Hızı">⚡ 1.0x</button>
@@ -3367,6 +3380,10 @@
 
       // Device Sync Modal Events
       if (el.syncModalBtn) el.syncModalBtn.addEventListener("click", openSyncModal);
+      const tabSyncBtn = document.getElementById("tabSync");
+      if (tabSyncBtn) tabSyncBtn.addEventListener("click", openSyncModal);
+      const secondarySyncBtn = document.getElementById("secondarySyncBtn");
+      if (secondarySyncBtn) secondarySyncBtn.addEventListener("click", openSyncModal);
       if (el.closeSyncModalBtn) el.closeSyncModalBtn.addEventListener("click", closeSyncModal);
       if (el.syncModal) {
         el.syncModal.addEventListener("click", (e) => {

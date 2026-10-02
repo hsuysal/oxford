@@ -1619,92 +1619,86 @@
 
   <!-- Device Sync Modal -->
   <div class="modal-backdrop" id="syncModal" role="dialog" aria-modal="true" aria-labelledby="syncModalTitle">
-    <div class="modal-dialog" style="max-width: 520px;">
+    <div class="modal-dialog" style="max-width: 500px;">
       <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3 class="modal-title" id="syncModalTitle">📲 Cihazlar Arası Eşitleme</h3>
+        <h3 class="modal-title" id="syncModalTitle">📲 Cihazlar Arası Hızlı Aktarım</h3>
         <button class="icon-action-btn" id="closeSyncModalBtn" style="width: 32px; height: 32px;">✕</button>
       </div>
 
-      <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">
-        E-posta veya şifre gerekmez! Tablet veya telefonunuzu bağlayarak aynı kelime ilerlemesini tüm cihazlarınızda sürdürün.
+      <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 4px;">
+        Üyelik, e-posta veya şifre gerekmez! Tablet veya telefonunuzdaki ilerlemeyi QR kod ile anında diğer cihaza aktarın.
       </p>
 
-      <!-- ACTIVE SYNC VIEW (When a code is linked) -->
-      <div id="syncActiveView" class="hidden" style="display: flex; flex-direction: column; gap: 14px;">
-        <div style="background: var(--success-subtle); border: 1px solid var(--success-border); border-radius: var(--radius-md); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;">
-          <div>
-            <div style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700; color: var(--success); letter-spacing: 0.05em;">Bağlı Eşitleme Kodu</div>
-            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 800; color: var(--text-primary); letter-spacing: 0.05em;" id="activeSyncCodeDisplay">-</div>
+      <!-- Sync Tabs -->
+      <div style="display: flex; gap: 8px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px; margin-top: 6px;">
+        <button class="btn-base active" id="syncTabShareBtn" style="flex: 1; justify-content: center; font-size: 0.825rem; padding: 8px;">
+          📸 QR Kod ile Gönder
+        </button>
+        <button class="btn-base" id="syncTabReceiveBtn" style="flex: 1; justify-content: center; font-size: 0.825rem; padding: 8px;">
+          📥 Kod / Link ile Al
+        </button>
+      </div>
+
+      <!-- TAB 1: SHARE VIEW (QR CODE) -->
+      <div id="syncSharePanel" style="display: flex; flex-direction: column; gap: 12px; margin-top: 6px;">
+        <div style="background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px 14px; display: flex; align-items: center; justify-content: space-between;">
+          <div style="font-size: 0.825rem; font-weight: 600; color: var(--text-primary);">
+            Aktarılacak Veri: <span id="syncDataSummary" style="color: var(--primary); font-weight: 700;">0 Kelime</span>
           </div>
-          <button class="btn-base" id="copySyncCodeBtn" style="font-size: 0.8rem; padding: 6px 12px;">📋 Kodu Kopyala</button>
+          <span style="font-size: 0.75rem; color: var(--text-muted);" id="syncBreakdownText">0 Biliyorum, 0 Çalışılacak</span>
         </div>
 
         <div style="text-align: center; background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px;">
-          <div style="font-size: 0.825rem; font-weight: 600; color: var(--text-secondary);">
-            📷 Telefonunuzun Kamerasıyla Bu QR Kodu Okutun:
+          <div style="background: #ffffff; padding: 8px; border-radius: 12px; box-shadow: var(--shadow-sm); display: inline-flex;">
+            <canvas id="syncQrCanvas" width="210" height="210" style="display: block; width: 210px; height: 210px;"></canvas>
           </div>
-          <div style="background: #ffffff; padding: 10px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); display: inline-flex;">
-            <img id="syncQrImg" src="" alt="Eşitleme QR Kodu" style="width: 170px; height: 170px; display: block;" />
+          <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-primary);">
+            📷 Diğer cihazınızın (Telefon) kamerasını bu QR koda tutun.
           </div>
           <div style="font-size: 0.75rem; color: var(--text-muted); max-width: 360px;">
-            Kamerayı okuttuğunuzda telefonunuz doğrudan bu koda bağlanır ve tüm kelimeleriniz iki cihazda ortak çalışır.
+            Kameranız bağlantıyı algıladığında dokunun; tüm ilerlemeniz otomatik olarak o cihaza yüklenecektir.
           </div>
         </div>
 
         <div style="display: flex; gap: 8px;">
-          <button class="btn-base primary" id="manualSyncNowBtn" style="flex: 1; justify-content: center; padding: 10px;">
-            🔄 Şimdi Senkronize Et
+          <button class="btn-base" id="copySyncUrlBtn" style="flex: 1; justify-content: center; font-size: 0.8rem; padding: 8px;">
+            📋 Eşitleme Linkini Kopyala
           </button>
-          <button class="btn-base danger" id="disconnectSyncBtn" style="padding: 10px 14px;" title="Bağlantıyı Kes">
-            Bağlantıyı Kes
+          <button class="btn-base" id="copySyncPayloadBtn" style="flex: 1; justify-content: center; font-size: 0.8rem; padding: 8px;">
+            📋 Sadece Kodu Kopyala
           </button>
         </div>
       </div>
 
-      <!-- INACTIVE SYNC VIEW (When no code yet) -->
-      <div id="syncInactiveView" style="display: flex; flex-direction: column; gap: 16px;">
-        <div style="background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 16px; display: flex; flex-direction: column; gap: 10px;">
-          <div style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary);">
-            1. Bu Cihazdan Kod Al (Örn: Tabletiniz)
-          </div>
-          <p style="font-size: 0.825rem; color: var(--text-secondary); margin: 0;">
-            Şu anki ilerlemenizi kaydedecek tek kullanımlık bir eşitleme kodu ve QR kod üretir.
-          </p>
-          <button class="btn-base primary" id="generateNewSyncCodeBtn" style="justify-content: center; padding: 10px; font-weight: 700;">
-            ✨ Yeni Eşitleme Kodu Oluştur
-          </button>
-        </div>
+      <!-- TAB 2: RECEIVE VIEW (PASTE CODE OR URL) -->
+      <div id="syncReceivePanel" class="hidden" style="display: flex; flex-direction: column; gap: 12px; margin-top: 6px;">
+        <p style="font-size: 0.825rem; color: var(--text-secondary); margin: 0;">
+          Kamerayı kullanamıyorsanız, diğer cihazdan kopyaladığınız eşitleme linkini veya kodunu buraya yapıştırın:
+        </p>
 
-        <div style="background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 16px; display: flex; flex-direction: column; gap: 10px;">
-          <div style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary);">
-            2. Başka Cihazdaki Kod ile Bağlan (Örn: Telefonunuz)
-          </div>
-          <p style="font-size: 0.825rem; color: var(--text-secondary); margin: 0;">
-            Tabletinizde gördüğünüz eşitleme kodunu girerek ilerlemenizi telefonunuza çekin.
-          </p>
-          <div style="display: flex; gap: 8px;">
-            <input type="text" id="inputSyncCode" class="search-input" placeholder="Örn: OX-R267" style="text-transform: uppercase; font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.05em; padding-left: 12px;" maxlength="10">
-            <button class="btn-base success" id="connectWithCodeBtn" style="white-space: nowrap; font-weight: 700; padding: 0 16px;">
-              🔗 Bağlan
-            </button>
-          </div>
-        </div>
+        <textarea id="syncPasteInput" class="search-input" rows="3" placeholder="Örn: https://hsuysal.github.io/...#sync=k:1-50|u:51-60 veya k:1-50|u:51-60" style="height: 75px; font-family: var(--font-mono); font-size: 0.8rem; padding: 8px; resize: none;"></textarea>
 
-        <div style="border-top: 1px solid var(--border-subtle); padding-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-          <span style="font-size: 0.78rem; color: var(--text-muted);">Çevrimdışı Dosya Yedeği:</span>
-          <div style="display: flex; gap: 8px;">
-            <button class="btn-base" id="exportBackupBtn" style="font-size: 0.78rem; padding: 5px 10px;">📥 Yedeği İndir (JSON)</button>
-            <label class="btn-base" style="font-size: 0.78rem; padding: 5px 10px; cursor: pointer;">
-              📤 Yedek Yükle
-              <input type="file" id="importBackupInput" accept=".json" style="display: none;">
-            </label>
-          </div>
+        <button class="btn-base primary" id="applyPastedSyncBtn" style="justify-content: center; padding: 10px; font-weight: 700;">
+          📥 İlerlemeyi İçe Aktar ve Birleştir
+        </button>
+      </div>
+
+      <!-- FOOTER: FILE BACKUP -->
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 4px;">
+        <span style="font-size: 0.78rem; color: var(--text-muted);">Çevrimdışı Dosya Yedeği:</span>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-base" id="exportBackupBtn" style="font-size: 0.78rem; padding: 5px 10px;">📥 JSON İndir</button>
+          <label class="btn-base" style="font-size: 0.78rem; padding: 5px 10px; cursor: pointer;">
+            📤 JSON Yükle
+            <input type="file" id="importBackupInput" accept=".json" style="display: none;">
+          </label>
         </div>
       </div>
     </div>
   </div>
 
   <script src="words.js"></script>
+  <script src="qrcode.js"></script>
 
   <script>
     "use strict";
@@ -1882,22 +1876,23 @@
       resetUnknownOnlyBtn: document.getElementById("resetUnknownOnlyBtn"),
       resetStarredOnlyBtn: document.getElementById("resetStarredOnlyBtn"),
 
-      // Sync Modal & Buttons
+      // Sync Modal & Controls
       syncModalBtn: document.getElementById("syncModalBtn"),
       syncStatusDot: document.getElementById("syncStatusDot"),
       syncBtnLabel: document.getElementById("syncBtnLabel"),
       syncModal: document.getElementById("syncModal"),
       closeSyncModalBtn: document.getElementById("closeSyncModalBtn"),
-      syncActiveView: document.getElementById("syncActiveView"),
-      activeSyncCodeDisplay: document.getElementById("activeSyncCodeDisplay"),
-      copySyncCodeBtn: document.getElementById("copySyncCodeBtn"),
-      syncQrImg: document.getElementById("syncQrImg"),
-      manualSyncNowBtn: document.getElementById("manualSyncNowBtn"),
-      disconnectSyncBtn: document.getElementById("disconnectSyncBtn"),
-      syncInactiveView: document.getElementById("syncInactiveView"),
-      generateNewSyncCodeBtn: document.getElementById("generateNewSyncCodeBtn"),
-      inputSyncCode: document.getElementById("inputSyncCode"),
-      connectWithCodeBtn: document.getElementById("connectWithCodeBtn"),
+      syncTabShareBtn: document.getElementById("syncTabShareBtn"),
+      syncTabReceiveBtn: document.getElementById("syncTabReceiveBtn"),
+      syncSharePanel: document.getElementById("syncSharePanel"),
+      syncReceivePanel: document.getElementById("syncReceivePanel"),
+      syncDataSummary: document.getElementById("syncDataSummary"),
+      syncBreakdownText: document.getElementById("syncBreakdownText"),
+      syncQrCanvas: document.getElementById("syncQrCanvas"),
+      copySyncUrlBtn: document.getElementById("copySyncUrlBtn"),
+      copySyncPayloadBtn: document.getElementById("copySyncPayloadBtn"),
+      syncPasteInput: document.getElementById("syncPasteInput"),
+      applyPastedSyncBtn: document.getElementById("applyPastedSyncBtn"),
       exportBackupBtn: document.getElementById("exportBackupBtn"),
       importBackupInput: document.getElementById("importBackupInput")
     };
@@ -1916,17 +1911,9 @@
       bindEvents();
       setupSpeechVoices();
       renderCurrentMode();
-      updateSyncUI();
-
-      // Check URL query param ?sync=OX-XXXX (e.g. from camera QR scan)
-      const urlParams = new URLSearchParams(window.location.search);
-      const syncParam = urlParams.get('sync');
-      if (syncParam) {
-        connectToSyncCode(syncParam, true);
-        window.history.replaceState({}, document.title, window.location.pathname);
-      } else if (state.syncCode) {
-        pullSyncData(state.syncCode, false);
-      }
+      
+      // Check for incoming sync data via URL hash (#sync=...) or query param (?sync=...)
+      checkIncomingSync();
     }
 
     // Theme Management
@@ -2340,26 +2327,157 @@
       }, 2500);
     }
 
-    // Device Sync Logic
-    function updateSyncUI() {
-      const code = state.syncCode;
-      if (code) {
-        if (el.syncBtnLabel) el.syncBtnLabel.textContent = `📲 ${code}`;
-        if (el.syncStatusDot) el.syncStatusDot.style.background = "var(--success)";
-        if (el.syncActiveView) el.syncActiveView.classList.remove("hidden");
-        if (el.syncInactiveView) el.syncInactiveView.classList.add("hidden");
-        if (el.activeSyncCodeDisplay) el.activeSyncCodeDisplay.textContent = code;
-        if (el.syncQrImg) el.syncQrImg.src = `/api/sync/qr/${code}`;
-      } else {
-        if (el.syncBtnLabel) el.syncBtnLabel.textContent = "📲 Cihaz Eşitle";
-        if (el.syncStatusDot) el.syncStatusDot.style.background = "var(--border-strong)";
-        if (el.syncActiveView) el.syncActiveView.classList.add("hidden");
-        if (el.syncInactiveView) el.syncInactiveView.classList.remove("hidden");
+    // Range Compression & Client-Side Device Sync
+    function compressToRanges(numArray) {
+      if (!numArray || !numArray.length) return '';
+      const nums = numArray.map(Number).filter(n => !isNaN(n)).sort((a,b) => a - b);
+      if (!nums.length) return '';
+      
+      const ranges = [];
+      let start = nums[0];
+      let end = nums[0];
+      
+      for (let i = 1; i < nums.length; i++) {
+        if (nums[i] === end + 1) {
+          end = nums[i];
+        } else if (nums[i] === end) {
+          continue;
+        } else {
+          ranges.push(start === end ? String(start) : start + '-' + end);
+          start = nums[i];
+          end = nums[i];
+        }
+      }
+      ranges.push(start === end ? String(start) : start + '-' + end);
+      return ranges.join(',');
+    }
+
+    function expandRanges(rangeStr) {
+      if (!rangeStr) return [];
+      const parts = rangeStr.split(',');
+      const nums = [];
+      for (const part of parts) {
+        if (!part) continue;
+        if (part.includes('-')) {
+          const [s, e] = part.split('-').map(Number);
+          for (let i = s; i <= e; i++) nums.push(i);
+        } else {
+          nums.push(Number(part));
+        }
+      }
+      return nums;
+    }
+
+    function encodeSyncPayload(marks, starred) {
+      const known = [];
+      const unknown = [];
+      for (const [id, mark] of Object.entries(marks || {})) {
+        if (mark === 'KNOWN') known.push(id);
+        else if (mark === 'UNKNOWN') unknown.push(id);
+      }
+      const star = [];
+      for (const [id, val] of Object.entries(starred || {})) {
+        if (val) star.push(id);
+      }
+
+      const kStr = compressToRanges(known);
+      const uStr = compressToRanges(unknown);
+      const sStr = compressToRanges(star);
+
+      const parts = [];
+      if (kStr) parts.push('k:' + kStr);
+      if (uStr) parts.push('u:' + uStr);
+      if (sStr) parts.push('s:' + sStr);
+      return parts.join('|');
+    }
+
+    function decodeSyncPayload(payloadStr) {
+      if (!payloadStr) return { marks: {}, starred: {} };
+      let clean = payloadStr.trim();
+      if (clean.includes('#sync=')) clean = clean.split('#sync=')[1];
+      if (clean.includes('?sync=')) clean = clean.split('?sync=')[1];
+      clean = decodeURIComponent(clean);
+
+      const parts = clean.split('|');
+      const marks = {};
+      const starred = {};
+
+      for (const part of parts) {
+        if (part.startsWith('k:')) {
+          const ids = expandRanges(part.slice(2));
+          for (const id of ids) marks[String(id)] = 'KNOWN';
+        } else if (part.startsWith('u:')) {
+          const ids = expandRanges(part.slice(2));
+          for (const id of ids) marks[String(id)] = 'UNKNOWN';
+        } else if (part.startsWith('s:')) {
+          const ids = expandRanges(part.slice(2));
+          for (const id of ids) starred[String(id)] = true;
+        }
+      }
+      return { marks, starred };
+    }
+
+    function importSyncPayload(payloadStr) {
+      const decoded = decodeSyncPayload(payloadStr);
+      const kCount = Object.values(decoded.marks).filter(m => m === 'KNOWN').length;
+      const uCount = Object.values(decoded.marks).filter(m => m === 'UNKNOWN').length;
+      const totalCount = kCount + uCount;
+
+      if (totalCount === 0 && Object.keys(decoded.starred).length === 0) {
+        return { success: false, count: 0 };
+      }
+
+      state.marks = { ...state.marks, ...decoded.marks };
+      state.starred = { ...state.starred, ...decoded.starred };
+
+      saveJSON(STORAGE_MARKS, state.marks);
+      saveJSON(STORAGE_STARRED, state.starred);
+      applyFilters(false);
+      updateCountersAndBadges();
+      renderCurrentMode();
+      return { success: true, count: totalCount };
+    }
+
+    function getSyncUrl() {
+      const payload = encodeSyncPayload(state.marks, state.starred);
+      const base = window.location.origin + window.location.pathname;
+      return payload ? `${base}#sync=${payload}` : base;
+    }
+
+    function renderSyncQR() {
+      let known = 0;
+      let unknown = 0;
+      for (const w of state.words) {
+        const m = state.marks[w.id];
+        if (m === "KNOWN") known++;
+        else if (m === "UNKNOWN") unknown++;
+      }
+      const total = known + unknown;
+
+      if (el.syncDataSummary) el.syncDataSummary.textContent = `${total} Kelime`;
+      if (el.syncBreakdownText) el.syncBreakdownText.textContent = `${known} Biliyorum, ${unknown} Çalışılacak`;
+
+      const fullUrl = getSyncUrl();
+
+      if (el.syncQrCanvas) {
+        if (window.QRCode && typeof window.QRCode.toCanvas === 'function') {
+          window.QRCode.toCanvas(el.syncQrCanvas, fullUrl, {
+            width: 210,
+            margin: 1,
+            color: {
+              dark: "#0f172a",
+              light: "#ffffff"
+            }
+          }, (err) => {
+            if (err) console.error("QR Canvas error:", err);
+          });
+        }
       }
     }
 
     function openSyncModal() {
-      updateSyncUI();
+      renderSyncQR();
+      switchSyncTab('share');
       if (el.syncModal) el.syncModal.classList.add("is-open");
     }
 
@@ -2367,120 +2485,42 @@
       if (el.syncModal) el.syncModal.classList.remove("is-open");
     }
 
-    let autoSyncTimer = null;
-    function triggerAutoSync() {
-      if (!state.syncCode) return;
-      clearTimeout(autoSyncTimer);
-      autoSyncTimer = setTimeout(async () => {
+    function switchSyncTab(tab) {
+      if (tab === 'share') {
+        if (el.syncTabShareBtn) el.syncTabShareBtn.classList.add('active');
+        if (el.syncTabReceiveBtn) el.syncTabReceiveBtn.classList.remove('active');
+        if (el.syncSharePanel) el.syncSharePanel.classList.remove('hidden');
+        if (el.syncReceivePanel) el.syncReceivePanel.classList.add('hidden');
+        renderSyncQR();
+      } else {
+        if (el.syncTabShareBtn) el.syncTabShareBtn.classList.remove('active');
+        if (el.syncTabReceiveBtn) el.syncTabReceiveBtn.classList.add('active');
+        if (el.syncSharePanel) el.syncSharePanel.classList.add('hidden');
+        if (el.syncReceivePanel) el.syncReceivePanel.classList.remove('hidden');
+      }
+    }
+
+    function checkIncomingSync() {
+      let payload = "";
+      const hash = window.location.hash;
+      if (hash && hash.includes("sync=")) {
+        payload = hash.split("sync=")[1];
+      } else {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get("sync")) {
+          payload = urlParams.get("sync");
+        }
+      }
+
+      if (payload) {
+        const result = importSyncPayload(payload);
+        if (result.success && result.count > 0) {
+          showToast(`🎉 ${result.count} kelimelik ilerlemeniz başarıyla bu cihaza aktarıldı!`);
+        }
         try {
-          await fetch('/api/sync/save', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              code: state.syncCode,
-              marks: state.marks,
-              starred: state.starred,
-              lastIndex: state.currentIndex
-            })
-          });
-        } catch (err) {
-          console.warn('Auto sync warning:', err);
-        }
-      }, 700);
-    }
-
-    async function generateNewSyncCode() {
-      try {
-        const res = await fetch('/api/sync/new-code');
-        const data = await res.json();
-        if (!data || !data.code) throw new Error("Kod üretilemedi");
-
-        state.syncCode = data.code;
-        localStorage.setItem(STORAGE_SYNC_CODE, state.syncCode);
-
-        // Save current local data to this new code
-        await fetch('/api/sync/save', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            code: state.syncCode,
-            marks: state.marks,
-            starred: state.starred,
-            lastIndex: state.currentIndex
-          })
-        });
-
-        updateSyncUI();
-        showToast(`✨ Eşitleme kodu oluşturuldu: ${state.syncCode}`);
-      } catch (err) {
-        showToast("Eşitleme kodu oluşturulamadı, lütfen tekrar deneyin.");
+          history.replaceState(null, document.title, window.location.pathname);
+        } catch (e) {}
       }
-    }
-
-    async function connectToSyncCode(codeToConnect, isFromUrl = false) {
-      if (!codeToConnect) return;
-      const cleanCode = codeToConnect.trim().toUpperCase();
-      try {
-        const res = await fetch(`/api/sync/load/${cleanCode}`);
-        const data = await res.json();
-        if (data && data.found && data.data) {
-          state.syncCode = cleanCode;
-          localStorage.setItem(STORAGE_SYNC_CODE, cleanCode);
-
-          const remote = data.data;
-          state.marks = remote.marks || {};
-          state.starred = remote.starred || {};
-          saveJSON(STORAGE_MARKS, state.marks);
-          saveJSON(STORAGE_STARRED, state.starred);
-
-          applyFilters(false);
-          updateCountersAndBadges();
-          renderCurrentMode();
-          updateSyncUI();
-
-          const count = Object.keys(state.marks).length;
-          showToast(`📲 Başarıyla eşitlendi! (${cleanCode} - ${count} kelime yüklendi)`);
-          if (!isFromUrl) closeSyncModal();
-        } else {
-          showToast(`'${cleanCode}' koduna ait kayıt bulunamadı.`);
-        }
-      } catch (err) {
-        showToast("Sunucuya bağlanılamadı, internet bağlantınızı kontrol edin.");
-      }
-    }
-
-    async function pullSyncData(code, showFeedback = false) {
-      if (!code) return;
-      try {
-        const res = await fetch(`/api/sync/load/${code}`);
-        const data = await res.json();
-        if (data && data.found && data.data) {
-          state.marks = data.data.marks || {};
-          state.starred = data.data.starred || {};
-          saveJSON(STORAGE_MARKS, state.marks);
-          saveJSON(STORAGE_STARRED, state.starred);
-
-          applyFilters(false);
-          updateCountersAndBadges();
-          renderCurrentMode();
-          if (showFeedback) showToast("Bulut ile başarıyla eşitlendi!");
-        }
-      } catch (err) {
-        if (showFeedback) showToast("Eşitleme başarısız oldu.");
-      }
-    }
-
-    function manualSyncNow() {
-      if (!state.syncCode) return;
-      triggerAutoSync();
-      pullSyncData(state.syncCode, true);
-    }
-
-    function disconnectSync() {
-      state.syncCode = null;
-      localStorage.removeItem(STORAGE_SYNC_CODE);
-      updateSyncUI();
-      showToast("Eşitleme bağlantısı kaldırıldı.");
     }
 
     function exportBackup() {
@@ -2913,36 +2953,49 @@
           if (e.target === el.syncModal) closeSyncModal();
         });
       }
-      if (el.generateNewSyncCodeBtn) el.generateNewSyncCodeBtn.addEventListener("click", generateNewSyncCode);
-      if (el.connectWithCodeBtn) {
-        el.connectWithCodeBtn.addEventListener("click", () => {
-          if (el.inputSyncCode && el.inputSyncCode.value) {
-            connectToSyncCode(el.inputSyncCode.value.trim());
+      if (el.syncTabShareBtn) el.syncTabShareBtn.addEventListener("click", () => switchSyncTab('share'));
+      if (el.syncTabReceiveBtn) el.syncTabReceiveBtn.addEventListener("click", () => switchSyncTab('receive'));
+
+      if (el.copySyncUrlBtn) {
+        el.copySyncUrlBtn.addEventListener("click", () => {
+          const url = getSyncUrl();
+          navigator.clipboard.writeText(url).then(() => {
+            showToast("Eşitleme linki panoya kopyalandı! 📋");
+          }).catch(() => {
+            prompt("Eşitleme linkini kopyalayın:", url);
+          });
+        });
+      }
+
+      if (el.copySyncPayloadBtn) {
+        el.copySyncPayloadBtn.addEventListener("click", () => {
+          const payload = encodeSyncPayload(state.marks, state.starred);
+          navigator.clipboard.writeText(payload).then(() => {
+            showToast("Eşitleme kodu panoya kopyalandı! 📋");
+          }).catch(() => {
+            prompt("Eşitleme kodunu kopyalayın:", payload);
+          });
+        });
+      }
+
+      if (el.applyPastedSyncBtn) {
+        el.applyPastedSyncBtn.addEventListener("click", () => {
+          const val = (el.syncPasteInput && el.syncPasteInput.value) ? el.syncPasteInput.value.trim() : "";
+          if (!val) {
+            showToast("Lütfen bir eşitleme kodu veya linki yapıştırın.");
+            return;
+          }
+          const res = importSyncPayload(val);
+          if (res.success && res.count > 0) {
+            showToast(`🎉 ${res.count} kelimelik ilerleme başarıyla aktarıldı!`);
+            closeSyncModal();
+            if (el.syncPasteInput) el.syncPasteInput.value = "";
           } else {
-            showToast("Lütfen bir eşitleme kodu girin.");
+            showToast("Geçersiz kod veya eşitleme verisi.");
           }
         });
       }
-      if (el.inputSyncCode) {
-        el.inputSyncCode.addEventListener("keydown", (e) => {
-          if (e.key === "Enter") {
-            if (el.inputSyncCode.value) connectToSyncCode(el.inputSyncCode.value.trim());
-          }
-        });
-      }
-      if (el.copySyncCodeBtn) {
-        el.copySyncCodeBtn.addEventListener("click", () => {
-          if (state.syncCode) {
-            navigator.clipboard.writeText(state.syncCode).then(() => {
-              showToast("Eşitleme kodu panoya kopyalandı! 📋");
-            }).catch(() => {
-              showToast(`Kod: ${state.syncCode}`);
-            });
-          }
-        });
-      }
-      if (el.manualSyncNowBtn) el.manualSyncNowBtn.addEventListener("click", manualSyncNow);
-      if (el.disconnectSyncBtn) el.disconnectSyncBtn.addEventListener("click", disconnectSync);
+
       if (el.exportBackupBtn) el.exportBackupBtn.addEventListener("click", exportBackup);
       if (el.importBackupInput) {
         el.importBackupInput.addEventListener("change", (e) => {

@@ -1042,6 +1042,224 @@
       color: var(--text-muted);
     }
 
+    /* 5. TABLE / LIST VIEW */
+    .word-list-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .list-meta-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px 18px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .list-meta-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .list-meta-count {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-left: 6px;
+    }
+
+    .list-quick-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .table-scroll-hint {
+      display: none;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      align-items: center;
+      gap: 4px;
+    }
+
+    .table-responsive-wrapper {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      box-shadow: var(--shadow-md);
+    }
+
+    .word-data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+      min-width: 840px;
+    }
+
+    .word-data-table th {
+      background: var(--bg-surface-subtle);
+      color: var(--text-secondary);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 14px 16px;
+      border-bottom: 2px solid var(--border-subtle);
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .word-data-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: middle;
+      color: var(--text-primary);
+      line-height: 1.45;
+    }
+
+    .word-data-table tbody tr {
+      transition: background-color 0.12s ease;
+    }
+
+    .word-data-table tbody tr:hover {
+      background-color: var(--accent-subtle);
+    }
+
+    .table-word-en {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--text-primary);
+    }
+
+    .table-pron-text {
+      font-family: var(--font-body);
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+      font-size: 0.825rem;
+    }
+
+    .table-tr-meaning {
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .table-sent-en {
+      color: var(--text-primary);
+      font-weight: 500;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .table-sent-tr {
+      color: var(--text-muted);
+      font-size: 0.825rem;
+      margin-top: 2px;
+    }
+
+    .table-audio-btn {
+      appearance: none;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      transition: all 0.12s ease;
+    }
+
+    .table-audio-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.08);
+      background: var(--accent-subtle);
+    }
+
+    .table-status-pill {
+      appearance: none;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface-subtle);
+      color: var(--text-secondary);
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.12s ease;
+    }
+
+    .table-status-pill:hover {
+      transform: translateY(-1px);
+    }
+
+    .table-status-pill.known {
+      background: var(--success-subtle);
+      border-color: var(--success-border);
+      color: var(--success);
+    }
+
+    .table-status-pill.unknown {
+      background: var(--danger-subtle);
+      border-color: var(--danger-border);
+      color: var(--danger);
+    }
+
+    .list-pagination-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 12px 18px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      font-size: 0.85rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     /* AUTOPLAY / AUDIO VIEW */
     .autoplay-stage {
       width: 100%;
@@ -1246,16 +1464,16 @@
         align-items: center;
         justify-content: center;
         gap: 2px;
-        padding: 6px 2px;
-        font-size: 0.72rem;
+        padding: 4px 1px;
+        font-size: 0.68rem;
         font-weight: 600;
-        min-height: 48px;
+        min-height: 44px;
         border-radius: var(--radius-sm);
         white-space: nowrap;
       }
 
       .nav-tab-btn span:first-child {
-        font-size: 1.15rem;
+        font-size: 1.05rem;
         line-height: 1;
       }
 
@@ -1550,6 +1768,27 @@
         border-radius: var(--radius-lg);
       }
 
+      /* Table List Mobile */
+      .table-scroll-hint {
+        display: inline-flex;
+      }
+      .word-data-table {
+        min-width: 760px;
+      }
+      .word-data-table th, .word-data-table td {
+        padding: 9px 12px;
+      }
+      .list-pagination-bar {
+        padding: 10px 12px;
+        gap: 8px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .pagination-controls {
+        justify-content: space-between;
+        width: 100%;
+      }
+
       /* Modals Mobile */
       .modal-dialog {
         padding: 18px 16px;
@@ -1599,6 +1838,9 @@
     <nav class="nav-zone" role="tablist" aria-label="Öğrenme Modları">
       <button class="nav-tab-btn active" id="tabFlashcard" data-mode="FLASHCARD">
         <span>🎴</span> Kartlar
+      </button>
+      <button class="nav-tab-btn" id="tabList" data-mode="LIST" title="Kelimeleri Tablo Olarak Gör">
+        <span>📑</span> Liste
       </button>
       <button class="nav-tab-btn" id="tabQuiz" data-mode="QUIZ">
         <span>🎯</span> Quiz
@@ -1808,6 +2050,67 @@
         </button>
       </div>
     </main>
+
+    <!-- 5. TABLE / LIST VIEW -->
+    <section id="listView" class="word-list-section hidden">
+      <div class="list-meta-header">
+        <div class="list-meta-info">
+          <span class="list-meta-title">📑 Oxford 3000 Kelime Listesi</span>
+          <span class="list-meta-count" id="listTableCount">0 kelime</span>
+        </div>
+        <div class="list-quick-actions">
+          <span class="table-scroll-hint">👉 Sağa kaydırılabilir</span>
+          <button class="btn-base" id="listExportCsvBtn" title="Listeyi Excel / CSV Olarak İndir">📥 CSV İndir</button>
+        </div>
+      </div>
+
+      <div class="table-responsive-wrapper">
+        <table class="word-data-table" id="wordDataTable">
+          <thead>
+            <tr>
+              <th style="width: 48px; text-align: center;">#</th>
+              <th style="min-width: 170px;">İngilizcesi</th>
+              <th style="min-width: 140px;">Türkçe Okunuşu</th>
+              <th style="min-width: 180px;">Türkçesi</th>
+              <th style="min-width: 250px;">İngilizce Cümle</th>
+              <th style="min-width: 230px;">Türkçe Cümle</th>
+              <th style="width: 110px; text-align: center;">Durum</th>
+            </tr>
+          </thead>
+          <tbody id="wordTableBody">
+            <!-- Rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="list-pagination-bar" id="listPaginationBar">
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <span id="pageInfoText" style="color: var(--text-secondary); font-weight: 500;">Sayfa 1 / 1</span>
+          <span style="color: var(--text-muted);">·</span>
+          <label style="display: inline-flex; align-items: center; gap: 4px; color: var(--text-muted); font-size: 0.8rem;">
+            Sayfa Başı:
+            <select id="pageSizeSelect" class="select-dropdown" style="height: 32px; padding: 0 24px 0 8px; font-size: 0.8rem;">
+              <option value="50">50</option>
+              <option value="100" selected>100</option>
+              <option value="250">250</option>
+              <option value="ALL">Tümü (Hepsi)</option>
+            </select>
+          </label>
+        </div>
+        <div class="pagination-controls">
+          <button class="btn-base" id="prevPageBtn">← Önceki</button>
+          <span id="pageNumberDisplay" style="font-family: var(--font-mono); font-weight: 700; padding: 0 4px;">1</span>
+          <button class="btn-base" id="nextPageBtn">Sonraki →</button>
+        </div>
+      </div>
+
+      <div class="empty-state-box hidden" id="listEmptyState">
+        <div style="font-size: 2.5rem;">🔍</div>
+        <h3>Filtrelere uygun kelime bulunamadı</h3>
+        <p>Seçili seviye veya tür filtresini değiştirmeyi deneyin.</p>
+        <button class="btn-base primary" id="listEmptyResetBtn">Filtreleri Temizle</button>
+      </div>
+    </section>
 
     <!-- 2. QUIZ MODE -->
     <section id="quizView" class="quiz-container hidden">
@@ -2176,7 +2479,11 @@
         timer: null,
         delay: 4000,
         includeSentence: true
-      }
+      },
+
+      // Table List View
+      tablePage: 1,
+      tablePageSize: 100
     };
 
     // DOM Elements Cache
@@ -2188,15 +2495,32 @@
       
       // Navigation Tabs
       tabFlashcard: document.getElementById("tabFlashcard"),
+      tabList: document.getElementById("tabList"),
       tabQuiz: document.getElementById("tabQuiz"),
       tabGrid: document.getElementById("tabGrid"),
       tabAutoplay: document.getElementById("tabAutoplay"),
+      tabSync: document.getElementById("tabSync"),
       
       // Views
       flashcardView: document.getElementById("flashcardView"),
+      listView: document.getElementById("listView"),
       quizView: document.getElementById("quizView"),
       gridView: document.getElementById("gridView"),
       autoplayView: document.getElementById("autoplayView"),
+
+      // Table List elements
+      wordDataTable: document.getElementById("wordDataTable"),
+      wordTableBody: document.getElementById("wordTableBody"),
+      listTableCount: document.getElementById("listTableCount"),
+      listPaginationBar: document.getElementById("listPaginationBar"),
+      listEmptyState: document.getElementById("listEmptyState"),
+      listEmptyResetBtn: document.getElementById("listEmptyResetBtn"),
+      listExportCsvBtn: document.getElementById("listExportCsvBtn"),
+      pageSizeSelect: document.getElementById("pageSizeSelect"),
+      prevPageBtn: document.getElementById("prevPageBtn"),
+      nextPageBtn: document.getElementById("nextPageBtn"),
+      pageInfoText: document.getElementById("pageInfoText"),
+      pageNumberDisplay: document.getElementById("pageNumberDisplay"),
       
       // Progress
       totalWordsCount: document.getElementById("totalWordsCount"),
@@ -2433,6 +2757,7 @@
         state.currentIndex = Math.max(0, state.filtered.length - 1);
       }
 
+      state.tablePage = 1;
       updateCountersAndBadges();
     }
 
@@ -2481,20 +2806,22 @@
       // Update Nav buttons
       const tabs = [
         { btn: el.tabFlashcard, mode: "FLASHCARD" },
+        { btn: el.tabList, mode: "LIST" },
         { btn: el.tabQuiz, mode: "QUIZ" },
         { btn: el.tabGrid, mode: "GRID" },
         { btn: el.tabAutoplay, mode: "AUTOPLAY" }
       ];
 
       tabs.forEach(t => {
-        t.btn.classList.toggle("active", t.mode === newMode);
+        if (t.btn) t.btn.classList.toggle("active", t.mode === newMode);
       });
 
       // Update Views
-      el.flashcardView.classList.toggle("hidden", newMode !== "FLASHCARD");
-      el.quizView.classList.toggle("hidden", newMode !== "QUIZ");
-      el.gridView.classList.toggle("hidden", newMode !== "GRID");
-      el.autoplayView.classList.toggle("hidden", newMode !== "AUTOPLAY");
+      if (el.flashcardView) el.flashcardView.classList.toggle("hidden", newMode !== "FLASHCARD");
+      if (el.listView) el.listView.classList.toggle("hidden", newMode !== "LIST");
+      if (el.quizView) el.quizView.classList.toggle("hidden", newMode !== "QUIZ");
+      if (el.gridView) el.gridView.classList.toggle("hidden", newMode !== "GRID");
+      if (el.autoplayView) el.autoplayView.classList.toggle("hidden", newMode !== "AUTOPLAY");
 
       renderCurrentMode();
     }
@@ -2502,6 +2829,8 @@
     function renderCurrentMode() {
       if (state.activeMode === "FLASHCARD") {
         renderFlashcard();
+      } else if (state.activeMode === "LIST") {
+        renderWordListTable();
       } else if (state.activeMode === "QUIZ") {
         renderQuizQuestion();
       } else if (state.activeMode === "GRID") {
@@ -3194,6 +3523,150 @@
       }
     }
 
+    // 5. TABLE / LIST LOGIC
+    function renderWordListTable() {
+      const words = state.filtered;
+      const total = words.length;
+
+      if (total === 0) {
+        if (el.wordDataTable) el.wordDataTable.classList.add("hidden");
+        if (el.listPaginationBar) el.listPaginationBar.classList.add("hidden");
+        if (el.listEmptyState) el.listEmptyState.classList.remove("hidden");
+        if (el.listTableCount) el.listTableCount.textContent = "0 kelime bulundu";
+        return;
+      }
+
+      if (el.wordDataTable) el.wordDataTable.classList.remove("hidden");
+      if (el.listPaginationBar) el.listPaginationBar.classList.remove("hidden");
+      if (el.listEmptyState) el.listEmptyState.classList.add("hidden");
+
+      // Pagination
+      const pageSize = state.tablePageSize === "ALL" ? total : parseInt(state.tablePageSize, 10);
+      const totalPages = Math.max(1, Math.ceil(total / pageSize));
+      if (state.tablePage > totalPages) state.tablePage = totalPages;
+      if (state.tablePage < 1) state.tablePage = 1;
+
+      const startIndex = state.tablePageSize === "ALL" ? 0 : (state.tablePage - 1) * pageSize;
+      const endIndex = state.tablePageSize === "ALL" ? total : Math.min(startIndex + pageSize, total);
+      const currentBatch = state.tablePageSize === "ALL" ? words : words.slice(startIndex, endIndex);
+
+      if (el.listTableCount) {
+        el.listTableCount.textContent = `${total.toLocaleString()} kelime (${startIndex + 1} - ${endIndex} arası)`;
+      }
+      if (el.pageInfoText) {
+        el.pageInfoText.textContent = `Sayfa ${state.tablePage} / ${totalPages}`;
+      }
+      if (el.pageNumberDisplay) {
+        el.pageNumberDisplay.textContent = `${state.tablePage} / ${totalPages}`;
+      }
+      if (el.prevPageBtn) {
+        el.prevPageBtn.disabled = state.tablePage <= 1;
+        el.prevPageBtn.style.opacity = state.tablePage <= 1 ? "0.45" : "1";
+      }
+      if (el.nextPageBtn) {
+        el.nextPageBtn.disabled = state.tablePage >= totalPages;
+        el.nextPageBtn.style.opacity = state.tablePage >= totalPages ? "0.45" : "1";
+      }
+
+      // Build rows
+      const rowsHtml = currentBatch.map(w => {
+        const mark = state.marks[w.id];
+        let markLabel = "İşaretsiz";
+        let markClass = "";
+        if (mark === "KNOWN") {
+          markLabel = "✓ Biliyorum";
+          markClass = "known";
+        } else if (mark === "UNKNOWN") {
+          markLabel = "✕ Çalışılacak";
+          markClass = "unknown";
+        }
+
+        const cleanEn = escapeHtml(w.en);
+        const cleanPron = escapeHtml(w.pron || "-");
+        const cleanTr = escapeHtml(w.tr || "-");
+        const cleanSentEn = escapeHtml(w.sentEn || "-");
+        const cleanSentTr = escapeHtml(w.sentTr || "-");
+
+        return `
+          <tr>
+            <td style="text-align: center; color: var(--text-muted); font-family: var(--font-mono); font-size: 0.78rem;">#${w.id}</td>
+            <td>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                <div>
+                  <span class="table-word-en">${cleanEn}</span>
+                  <div style="margin-top: 2px;">
+                    <span class="cefr-tag" style="font-size: 0.68rem; padding: 1px 5px;">${w.level || "A1"}</span>
+                    <span class="type-tag" style="font-size: 0.72rem; margin-left: 4px;">${w.type || ""}</span>
+                  </div>
+                </div>
+                <button class="table-audio-btn" data-speak="${cleanEn}" title="İngilizce Telaffuz Dinle" aria-label="${cleanEn} dinle">🔊</button>
+              </div>
+            </td>
+            <td>
+              <span class="table-pron-text">${cleanPron}</span>
+            </td>
+            <td>
+              <span class="table-tr-meaning">${cleanTr}</span>
+            </td>
+            <td>
+              <div class="table-sent-en">
+                <span>${cleanSentEn}</span>
+                ${w.sentEn ? `<button class="table-audio-btn" data-speak="${cleanSentEn}" title="Cümleyi Dinle" aria-label="Örnek cümleyi dinle">🔊</button>` : ''}
+              </div>
+            </td>
+            <td>
+              <div class="table-sent-tr">${cleanSentTr}</div>
+            </td>
+            <td style="text-align: center;">
+              <button class="table-status-pill ${markClass}" data-word-id="${w.id}" title="Durumu değiştirmek için tıkla (Biliyorum / Çalışılacak / İşaretsiz)">
+                ${markLabel}
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      if (el.wordTableBody) {
+        el.wordTableBody.innerHTML = rowsHtml;
+      }
+    }
+
+    function exportWordListCsv() {
+      const words = state.filtered;
+      if (!words || words.length === 0) {
+        showToast("İndirilecek kelime bulunamadı");
+        return;
+      }
+
+      const headers = ["ID", "İngilizce", "Seviye", "Kelime Türü", "Türkçe Okunuş", "Türkçe Anlam", "İngilizce Örnek Cümle", "Türkçe Örnek Cümle", "Öğrenme Durumu"];
+      const rows = words.map(w => {
+        const mark = state.marks[w.id] === "KNOWN" ? "Biliyorum" : (state.marks[w.id] === "UNKNOWN" ? "Çalışılacak" : "İşaretsiz");
+        return [
+          w.id,
+          `"${(w.en || "").replace(/"/g, '""')}"`,
+          `"${(w.level || "").replace(/"/g, '""')}"`,
+          `"${(w.type || "").replace(/"/g, '""')}"`,
+          `"${(w.pron || "").replace(/"/g, '""')}"`,
+          `"${(w.tr || "").replace(/"/g, '""')}"`,
+          `"${(w.sentEn || "").replace(/"/g, '""')}"`,
+          `"${(w.sentTr || "").replace(/"/g, '""')}"`,
+          `"${mark}"`
+        ].join(",");
+      });
+
+      const csvContent = "\uFEFF" + [headers.join(","), ...rows].join("\r\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `oxford_3000_kelimeler_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast(`✓ ${words.length.toLocaleString()} kelime CSV olarak indirildi`);
+    }
+
     // 4. AUTOPLAY LOGIC
     function renderAutoPlayCard() {
       const w = getCurrentWord();
@@ -3319,9 +3792,73 @@
 
       // Navigation
       el.tabFlashcard.addEventListener("click", () => switchMode("FLASHCARD"));
+      if (el.tabList) el.tabList.addEventListener("click", () => switchMode("LIST"));
       el.tabQuiz.addEventListener("click", () => switchMode("QUIZ"));
       el.tabGrid.addEventListener("click", () => switchMode("GRID"));
       el.tabAutoplay.addEventListener("click", () => switchMode("AUTOPLAY"));
+
+      // Table List Events
+      if (el.pageSizeSelect) {
+        el.pageSizeSelect.addEventListener("change", () => {
+          state.tablePageSize = el.pageSizeSelect.value;
+          state.tablePage = 1;
+          renderWordListTable();
+        });
+      }
+      if (el.prevPageBtn) {
+        el.prevPageBtn.addEventListener("click", () => {
+          if (state.tablePage > 1) {
+            state.tablePage--;
+            renderWordListTable();
+            if (el.wordDataTable) el.wordDataTable.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+      if (el.nextPageBtn) {
+        el.nextPageBtn.addEventListener("click", () => {
+          const total = state.filtered.length;
+          const pageSize = state.tablePageSize === "ALL" ? total : parseInt(state.tablePageSize, 10);
+          const totalPages = Math.ceil(total / pageSize);
+          if (state.tablePage < totalPages) {
+            state.tablePage++;
+            renderWordListTable();
+            if (el.wordDataTable) el.wordDataTable.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+      if (el.listEmptyResetBtn) {
+        el.listEmptyResetBtn.addEventListener("click", resetAllFilters);
+      }
+      if (el.listExportCsvBtn) {
+        el.listExportCsvBtn.addEventListener("click", exportWordListCsv);
+      }
+      if (el.wordTableBody) {
+        el.wordTableBody.addEventListener("click", (e) => {
+          const audioBtn = e.target.closest("button.table-audio-btn");
+          if (audioBtn) {
+            e.stopPropagation();
+            speakEnglish(audioBtn.dataset.speak);
+            return;
+          }
+          const statusBtn = e.target.closest("button.table-status-pill");
+          if (statusBtn) {
+            e.stopPropagation();
+            const wid = statusBtn.dataset.wordId;
+            const currentMark = state.marks[wid];
+            if (currentMark === "KNOWN") {
+              state.marks[wid] = "UNKNOWN";
+            } else if (currentMark === "UNKNOWN") {
+              delete state.marks[wid];
+            } else {
+              state.marks[wid] = "KNOWN";
+            }
+            saveJSON(STORAGE_MARKS, state.marks);
+            updateCountersAndBadges();
+            triggerAutoSync();
+            renderWordListTable();
+          }
+        });
+      }
 
       // Filters
       el.searchInput.addEventListener("input", () => {
